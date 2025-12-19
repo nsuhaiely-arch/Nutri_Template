@@ -160,6 +160,72 @@
             </div>
         </div>
     </section>
+iv class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-utensils text-emerald-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Nasi Campur Strategy</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">The "Bungkus" Rule: Fill 50% of your container with cabbage/ulam before adding the rice. It forces a smaller rice portion!</p>
+                    <a href="#" class="font-bold text-emerald-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+                <!-- Card 2 -->
+                <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-mug-hot text-amber-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Sugar-Free Office</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">3-in-1 coffee sachets contain up to 3 teaspoons of sugar. Learn how to transition to black coffee or sugar-free tea.</p>
+                    <a href="#" class="font-bold text-amber-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+                <!-- Card 3 -->
+                <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bed text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">The "Zzz" Prevention</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">Why you crash at 3 PM. Hint: It's the insulin spike from those 2 pieces of Karipap during the morning meeting.</p>
+                    <a href="#" class="font-bold text-blue-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+            </div>
+        </div>
+     </section>
+     <!-- Game Section -->
+    <section id="game" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl font-extrabold mb-6">Pantry Dash <br><span class="text-emerald-600">Catch the Health!</span></h2>
+                <p class="text-lg text-slate-600 mb-8">Quick! The pantry just got restocked. Use your mouse (or finger on mobile) to catch healthy snacks and avoid the junk.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-emerald-100/50 p-4 rounded-2xl border border-emerald-100">
+                        <span class="text-2xl">🥜 🍎 🍌</span>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-emerald-800">+10 Energy Points</span>
+                            <span class="text-xs text-emerald-600">Fruits & Nuts</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-rose-100/50 p-4 rounded-2xl border border-rose-100">
+                        <span class="text-2xl">🍩 🥟 🥤</span>
+                         <div class="flex flex-col">
+                            <span class="font-bold text-rose-800">-15 Energy Points</span>
+                            <span class="text-xs text-rose-600">Sugar & Processed Carbs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="game-container">
+                <div id="game-ui" class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-slate-900/90 text-white p-6 text-center">
+                    <div class="mb-4 text-4xl">🎮</div>
+                    <h3 class="text-3xl font-bold mb-2">Pantry Dash</h3>
+                    <p class="text-slate-400 mb-6 text-sm">Drag to move. Catch healthy food!</p>
+                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold text-lg hover:scale-105 transition shadow-lg shadow-emerald-500/20">Start Game</button>
+                </div>
+                <div class="absolute top-4 left-6 text-white font-bold text-xl z-10 bg-black/20 px-3 py-1 rounded-lg backdrop-blur-sm">Score: <span id="score">0</span></div>
+                <div id="player-paddle"></div>
+            </div>
+        </div>
+    </section>
 
     <!-- Interactive Snack Selector -->
     <section id="snacks" class="py-24 bg-slate-900 text-white overflow-hidden">
@@ -262,7 +328,7 @@
                 <a href="#" class="hover:text-green-600 transition"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="hover:text-green-600 transition"><i class="fab fa-twitter"></i></a>
             </div>
-            <p class="text-slate-400 text-xs">© 2024 Nutrition Educational Aids. For educational purposes only.</p>
+            <p class="text-slate-400 text-xs">© 2025 Nutrition Educational Aids. For educational purposes only.</p>
         </div>
     </footer>
 
@@ -320,4 +386,5 @@
         showSnack('energy');
     </script>
 </body>
+
 </html>
