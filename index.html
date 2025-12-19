@@ -397,7 +397,134 @@
             
             // Show selected
             document.getElementById('snack-' + type).classList.add('active');
+
+            // Activate specific
+            document.getElementById('content-' + tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('active-tab');
+        }
+
+        // Game Logic
+        const container = document.getElementById('game-container');
+        const paddle = document.getElementById('player-paddle');
+        const scoreDisplay = document.getElementById('score');
+        const ui = document.getElementById('game-ui');
+        
+        let score = 0;
+        let gameActive = false;
+        let paddlePos = 185;
+        const items = ['🍎', '🍌', '🥜', '🥦', '🍩', '🥤', '🥟', '🍬'];
+        const goodItems = ['🍎', '🍌', '🥜', '🥦'];
+
+        // Mouse & Touch Handler
+        function updatePaddle(clientX) {
+             if (!gameActive) return;
+            const rect = container.getBoundingClientRect();
+            let x = clientX - rect.left - 40; // Center paddle
             
+            // Boundaries
+            if (x < 0) x = 0;
+            if (x > rect.width - 80) x = rect.width - 80;
+            
+            paddlePos = x;
+            paddle.style.left = x + 'px';
+        }
+
+        container.addEventListener('mousemove', (e) => updatePaddle(e.clientX));
+        container.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Stop scrolling
+            updatePaddle(e.touches[0].clientX);
+        });
+
+        function startGame() {
+            gameActive = true;
+            score = 0;
+            scoreDisplay.innerText = score;
+            ui.style.display = 'none';
+            
+            // Spawn items loop
+            const spawnInterval = setInterval(() => {
+                if (!gameActive) {
+                    clearInterval(spawnInterval);
+                    return;
+                }
+                createItem();
+            }, 800);
+
+            // Game Timer (30 seconds)
+            setTimeout(() => {
+                gameActive = false;
+                ui.innerHTML = `
+                    <h3 class="text-3xl font-bold mb-2">Time's Up!</h3>
+                    <p class="mb-4 text-xl">Energy Level: <span class="${score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${score}</span></p>
+                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold shadow-lg">Play Again</button>
+                `;
+                ui.style.display = 'flex';
+                
+                // Cleanup existing items
+                document.querySelectorAll('.item-drop').forEach(el => el.remove());
+            }, 30000);
+        }
+
+        function createItem() {
+            const el = document.createElement('div');
+            const item = items[Math.floor(Math.random() * items.length)];
+            el.className = 'item-drop';
+            el.innerText = item;
+            
+            // Random X position within container width
+            const maxLeft = container.clientWidth - 40;
+            el.style.left = Math.random() * maxLeft + 'px';
+            el.style.top = '-50px';
+            container.appendChild(el);
+
+            let top = -50;
+            
+            // Fall animation loop for this specific item
+            const fall = setInterval(() => {
+                if (!gameActive) {
+                    clearInterval(fall);
+                    el.remove();
+                    return;
+                }
+                
+                top += 4; // Falling speed
+                el.style.top = top + 'px';
+
+                // Collision Detection Logic
+                // Paddle is at bottom: 20px from bottom. Container height 450.
+                // Paddle Y zone approx: 418px to 430px
+                if (top > 400 && top < 430) {
+                    const itemX = parseFloat(el.style.left);
+                    // Hitbox calculation
+                    if (itemX + 20 > paddlePos && itemX < paddlePos + 80) {
+                        if (goodItems.includes(item)) {
+                            score += 10;
+                            el.style.textShadow = "0 0 10px #10b981";
+                        } else {
+                            score -= 15;
+                            el.style.textShadow = "0 0 10px #f43f5e";
+                        }
+                        scoreDisplay.innerText = score;
+                        
+                        // Visual feedback (pop effect)
+                        el.style.transform = "scale(1.5)";
+                        el.style.opacity = "0";
+                        
+                        clearInterval(fall);
+                        setTimeout(() => el.remove(), 100);
+                        return;
+                    }
+                }
+
+                // Missed bottom
+                if (top > 450) {
+                    clearInterval(fall);
+                    el.remove();
+                }
+            }, 16);
+        }
+        
             // Update buttons
             const buttons = ['energy', 'focus', 'stress', 'hunger'];
             buttons.forEach(btn => {
@@ -444,6 +571,7 @@
 </body>
 
 </html>
+
 
 
 
