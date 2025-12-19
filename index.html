@@ -45,8 +45,7 @@
             background: #0f172a;
             border-radius: 24px;
             overflow: hidden;
-            touch-action: none; /* Prevents scrolling while playing on mobile */
-            cursor: crosshair;
+            touch-action: none; 
         }
 
         .item-drop {
@@ -54,7 +53,6 @@
             font-size: 2.5rem;
             user-select: none;
             transition: top 0.05s linear;
-            z-index: 5;
         }
 
         #player-paddle {
@@ -65,8 +63,6 @@
             background: #10b981;
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-            transition: left 0.05s linear;
-            z-index: 10;
         }
 
         .tab-content.active {
@@ -74,16 +70,6 @@
             animation: fadeIn 0.5s ease;
         }
         
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -105,6 +91,8 @@
                 <div class="hidden md:flex space-x-8 font-medium text-slate-600">
                     <a href="#home" class="hover:text-green-600 transition">Home</a>
                     <a href="#guides" class="hover:text-green-600 transition">Educational Aids</a>
+                    <a href="#hacks" class="hover:text-emerald-600 transition">Office Hacks</a>
+                    <a href="#game" class="hover:text-emerald-600 transition">Snack Game</a>
                     <a href="#snacks" class="hover:text-green-600 transition">Smart Snacks</a>
                     <a href="#tools" class="hover:text-green-600 transition">Tools</a>
                 </div>
@@ -571,6 +559,7 @@
 </body>
 
 </html>
+
 
 
 
