@@ -32,14 +32,7 @@
         .tab-content {
             display: none;
         }
-   
-        /* Tab Button Active State */
-        .tab-btn.active-tab {
-            background-color: #059669; /* emerald-600 */
-            color: white;
-            border-color: #059669;
-        }
-
+        
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -75,9 +68,16 @@
             transition: left 0.05s linear;
             z-index: 10;
         }
-    </style>
-</head>
-<body class="text-slate-900">
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         .tab-content.active {
             display: block;
@@ -571,6 +571,7 @@
 </body>
 
 </html>
+
 
 
 
