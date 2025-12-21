@@ -185,7 +185,7 @@
                         <i class="fas fa-utensils text-white text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">The "Healthy Plate" Guide</h3>
-                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">A visual blueprint for balancing your lunch to avoid the 3 PM crash. Learn the 2:1:1 ratio of greens, proteins, and complex carbs.</p>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">A visual blueprint for balancing your lunch to avoid the 3 PM crash. Learn the 2:1:1 ratio of greens, proteins, and complex c[...]
                     <button class="text-green-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
                         Download PDF <i class="fas fa-download"></i>
                     </button>
@@ -209,7 +209,7 @@
                         <i class="fas fa-mug-hot text-white text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Caffeine Timing Map</h3>
-                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">Stop drinking coffee at the wrong time. Use our guide to align caffeine intake with your natural cortisol rhythms for max energy.</p>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">Stop drinking coffee at the wrong time. Use our guide to align caffeine intake with your natural cortisol rhythms for max ene[...]
                     <button class="text-orange-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
                         View Infographic <i class="fas fa-image"></i>
                     </button>
@@ -226,7 +226,7 @@
                         <i class="fas fa-utensils text-emerald-600 text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Nasi Campur Strategy</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-6">The "Bungkus" Rule: Fill 50% of your container with cabbage/ulam before adding the rice. It forces a smaller rice portion!</p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">The "Bungkus" Rule: Fill 50% of your container with cabbage/ulam before adding the rice. It forces a smaller rice portion!</p[...]
                     <a href="#" class="font-bold text-emerald-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
                 </div>
                 <!-- Card 2 -->
@@ -326,7 +326,7 @@
                 <div class="md:w-1/2 flex justify-center">
                     <div class="relative">
                         <div class="w-64 h-64 md:w-80 md:h-80 bg-green-500 rounded-full flex items-center justify-center animate-pulse opacity-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-                        <img id="snack-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400" alt="Healthy Snack" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full shadow-2xl relative z-10 border-8 border-slate-800">
+                        <img id="snack-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400" alt="Healthy Snack" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full relative z-10">
                     </div>
                 </div>
             </div>
@@ -449,7 +449,7 @@
                                                 <span>Extremely High</span>
                                             </div>
                                         </div>
-                                        <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management Level 1+.</p>
+                                        <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management [...]
                                     </div>
                                 </div>
                             </div>
@@ -489,7 +489,7 @@
 
                                     <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
                                         <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
-                                        <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.</p>
+                                        <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation i[...]
                                     </div>
                                 </div>
                             </div>
@@ -529,43 +529,53 @@
     </footer>
 
     <script>
+        // ----- UI helpers -----
         function switchCalc(type) {
             const results = document.getElementById('calc-results');
             const target = document.getElementById('calc-' + type);
 
-            // If we're already in single-mode and the clicked tab is the currently active one => toggle back to dual view
             if (results.classList.contains('single') && target.classList.contains('active')) {
                 results.classList.remove('single');
                 document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
             } else {
-                // Enter single-mode and show only the selected panel
                 results.classList.add('single');
                 document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
                 target.classList.add('active');
             }
 
             // Update tab styles
-            document.getElementById('tab-bmi').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmi' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400'}`;
-            document.getElementById('tab-bmr').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmr' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400'}`;
+            document.getElementById('tab-bmi').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmi' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400 bg-white'}`;
+            document.getElementById('tab-bmr').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmr' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400 bg-white'}`;
         }
 
-        function updateGender(g) {
-            currentGender = g;
-            document.getElementById('g-male').className = g === 'male' ? 'flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700' : 'flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400';
-            document.getElementById('g-female').className = g === 'female' ? 'flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700' : 'flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400';
-            syncAndCalculate();
+        // Keep only one global gender setter
+        let currentGender = 'male';
+        function setGender(gender) {
+            currentGender = gender;
+            const maleBtn = document.getElementById('btn-male');
+            const femaleBtn = document.getElementById('btn-female');
+            
+            if (gender === 'male') {
+                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
+                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
+            } else {
+                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
+                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
+            }
+            calculateBMR();
         }
+
+        // Basic BMI sync (uses the inputs present)
         function syncAndCalculate() {
-            const w = parseFloat(document.getElementById('global-weight').value) || 0;
-            const h = parseFloat(document.getElementById('global-height').value) || 0;
-            const a = parseFloat(document.getElementById('global-age').value) || 0;
-            const pal = parseFloat(document.getElementById('pal-select').value);
+            const w = parseFloat(document.getElementById('weight')?.value) || 0;
+            const h = parseFloat(document.getElementById('height')?.value) || 0;
+            const a = parseFloat(document.getElementById('age')?.value) || 0;
+            const pal = parseFloat(document.getElementById('activity')?.value) || 1.2;
 
             if (h > 0) {
                 const bmi = w / ((h/100) * (h/100));
                 document.getElementById('bmi-val').innerText = bmi.toFixed(1);
                 
-                // --- STRICT TABLE 2-1 CLASSIFICATION ---
                 let s = "", c = "", bg = "", r = "", f = "";
                 
                 if (bmi < 18.5) { 
@@ -617,31 +627,16 @@
                 document.getElementById('bmi-val').className = `text-7xl font-black ${c}`;
                 document.getElementById('risk-badge').innerText = `Comorbidity Risk: ${r}`;
                 document.getElementById('bmi-feedback').innerText = f;
-        }
-            
-        let currentGender = 'male';
-
-        function setGender(gender) {
-            currentGender = gender;
-            const maleBtn = document.getElementById('btn-male');
-            const femaleBtn = document.getElementById('btn-female');
-            
-            if (gender === 'male') {
-                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
-                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
-            } else {
-                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
-                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
             }
-            calculateBMR();
         }
-
+            
+        // ----- BMR -----
         function calculateBMR() {
-            const age = parseFloat(document.getElementById('age').value) || 0;
-            const height = parseFloat(document.getElementById('height').value) || 0;
-            const weight = parseFloat(document.getElementById('weight').value) || 0;
-            const formula = document.getElementById('formula').value;
-            const activity = parseFloat(document.getElementById('activity').value);
+            const age = parseFloat(document.getElementById('age')?.value) || 0;
+            const height = parseFloat(document.getElementById('height')?.value) || 0;
+            const weight = parseFloat(document.getElementById('weight')?.value) || 0;
+            const formula = document.getElementById('formula')?.value || 'mifflin';
+            const activity = parseFloat(document.getElementById('activity')?.value) || 1.2;
             
             let bmr = 0;
             
@@ -651,7 +646,7 @@
                 } else {
                     bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
                 }
-                document.getElementById('equation-info').innerText = "Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.";
+                document.getElementById('equation-info').innerText = "Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations.";
             } else {
                 if (currentGender === 'male') {
                     bmr = (13.397 * weight) + (4.799 * height) - (5.677 * age) + 88.362;
@@ -669,7 +664,8 @@
             document.getElementById('loss-result').innerText = Math.round(tdee - 500) + " kcal";
             document.getElementById('maintain-result').innerText = Math.round(tdee) + " kcal";
         }
-            
+
+        // ----- Snacks UI (single correct implementation) -----
         function showSnack(type) {
             // Hide all contents
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -677,15 +673,34 @@
             });
             
             // Show selected
-            document.getElementById('snack-' + type).classList.add('active');
+            const selected = document.getElementById('snack-' + type);
+            if (selected) selected.classList.add('active');
 
-            // Activate specific
-            document.getElementById('content-' + tabId).classList.add('active');
-            const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.classList.add('active-tab');
+            // Update buttons
+            const buttons = ['energy', 'focus', 'stress', 'hunger'];
+            buttons.forEach(btn => {
+                const el = document.getElementById('btn-' + btn);
+                if (!el) return;
+                if(btn === type) {
+                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
+                } else {
+                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
+                }
+            });
+
+            // Update Image
+            const img = document.getElementById('snack-img');
+            if (!img) return;
+            const images = {
+                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+            };
+            img.src = images[type] || images['energy'];
         }
 
-        // Game Logic
+        // ----- Game Logic -----
         const container = document.getElementById('game-container');
         const paddle = document.getElementById('player-paddle');
         const scoreDisplay = document.getElementById('score');
@@ -728,10 +743,12 @@
             scoreDisplay.innerText = score;
             ui.style.display = 'none';
             
-             // Play Music
-            bgm.volume = 0.4; // Set volume to 40%
-            bgm.currentTime = 0;
-            attemptPlayBgm();
+            // Play Music
+            if (bgm) {
+                bgm.volume = 0.4; // Set volume to 40%
+                bgm.currentTime = 0;
+                attemptPlayBgm();
+            }
             
             // Spawn items loop
             const spawnInterval = setInterval(() => {
@@ -747,8 +764,10 @@
                 gameActive = false;
                 
                 // Stop Music
-                bgm.pause();
-                bgm.currentTime = 0;
+                if (bgm) {
+                    bgm.pause();
+                    bgm.currentTime = 0;
+                }
 
                 ui.innerHTML = `
                     <h3 class="text-3xl font-bold mb-2">Time's Up!</h3>
@@ -761,12 +780,13 @@
                 document.querySelectorAll('.item-drop').forEach(el => el.remove());
             }, 30000);
         }
+
         // Try to play BGM, and show unlock button if play() is rejected
         function attemptPlayBgm() {
+            if (!bgm) return;
             const p = bgm.play();
             if (p !== undefined) {
                 p.then(() => {
-                    // success — hide unlock button if present
                     const unlock = document.getElementById('audio-unlock');
                     if (unlock) unlock.classList.add('hidden');
                 }).catch(e => {
@@ -775,8 +795,11 @@
                     if (unlock) unlock.classList.remove('hidden');
                 });
             }
-            function unlockAudio() {
-            // This is called by a user gesture (button click) to explicitly enable audio playback
+        }
+
+        // Make unlockAudio global (so onclick in markup works)
+        function unlockAudio() {
+            if (!bgm) return;
             try {
                 bgm.muted = false;
                 bgm.currentTime = 0;
@@ -790,6 +813,7 @@
                 console.log('Unlock audio error', e);
             }
         }
+
         function createItem() {
             const el = document.createElement('div');
             const item = items[Math.floor(Math.random() * items.length)];
@@ -816,8 +840,6 @@
                 el.style.top = top + 'px';
 
                 // Collision Detection Logic
-                // Paddle is at bottom: 20px from bottom. Container height 450.
-                // Paddle Y zone approx: 418px to 430px
                 if (top > 400 && top < 430) {
                     const itemX = parseFloat(el.style.left);
                     // Hitbox calculation
@@ -849,55 +871,6 @@
             }, 16);
         }
 
-        function showSnack(type) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected
-            document.getElementById('snack-' + type).classList.add('active');
-        
-            // Update buttons
-            const buttons = ['energy', 'focus', 'stress', 'hunger'];
-            buttons.forEach(btn => {
-                const el = document.getElementById('btn-' + btn);
-                if(btn === type) {
-                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-                } else {
-                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                }
-            });
-
-            // Update Image
-            const img = document.getElementById('snack-img');
-            const images = {
-                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-            };
-            img.src = images[type];
-        }
-
-        // Calculator Logic
-        const bRange = document.getElementById('breakfast-range');
-        const wRange = document.getElementById('water-range');
-        const result = document.getElementById('calc-result');
-
-        function updateCalc() {
-            const bValue = parseInt(bRange.value);
-            const wValue = parseInt(wRange.value);
-            
-            // Dummy logic for productivity
-            let score = 5 + (wValue * 2) - (bValue * 1.5);
-            if (score < 0) score = 2;
-            result.innerText = Math.round(score);
-        }
-
-        bRange.addEventListener('input', updateCalc);
-        wRange.addEventListener('input', updateCalc);
-
         // Init UI
         syncAndCalculate();
         calculateBMR();
@@ -905,4 +878,3 @@
     </script>
 </body>
 </html>
-
