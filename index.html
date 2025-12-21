@@ -54,6 +54,7 @@
                #ef4444 32.5% 37.5%, /* Obese II (Red) */
                #7f1d1d 37.5% 100%   /* Obese III (Dark Red) */
            );
+           position: relative;
         }
         
         .nutrition-table th, .nutrition-table td {
@@ -62,6 +63,7 @@
             border-bottom: 1px solid #334155;
             font-size: 0.75rem;
         }
+        .hidden { display: none; } 
         
         #game-container {
             position: relative;
@@ -292,13 +294,12 @@
                 <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
                     <!-- Tabs -->
                     <div class="flex bg-slate-50 border-b border-slate-100">
-                        <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
-                            <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)
-                        </button>
-                        <button onclick="switchCalc('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
-                            <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator
-                        </button>
+                        <button onclick="switchTab('bmi')" id="btn-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
+                            <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)</button>
+                        <button onclick="switchTab('bmr')" id="btn-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
+                            <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator</button>
                     </div>
+                    
                     <div class="p-8 md:p-12">
                         <!-- Inputs -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -363,100 +364,95 @@
                                 </div>
                             </div>
                         </div>
-                    </div>  
-                    <div class="max-w-5xl mx-auto px-4">
-                        <!-- Inputs -->
-                        <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100">
-                            <div class="text-center mb-10">
-                                <h2 class="text-3xl font-bold mb-2">BMR & Energy Requirement Calculator</h2>
-                                <p class="text-slate-500">Validated calculations aligned with Malaysian clinical nutrition practices.</p>
-                            </div>
+
+                        <div id="bmr-inputs" class="hidden animate-slideup)
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                        </div>
-                        <!-- Calculator Inputs -->
-                        <div class="lg:col-span-7 space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
-                                <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
-                                    <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
-                                    <option value="harris">Revised Harris-Benedict</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Gender</label>
-                                <div class="flex gap-2">
-                                    <button onclick="setGender('male')" id="btn-male" class="flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700">Male</button>
-                                    <button onclick="setGender('female')" id="btn-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
-                                <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
-                                <input type="number" id="height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
-                                <input type="number" id="weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Physical Activity Level (PAL)</label>
-                            <select id="activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
-                                <option value="1.2">Basal Metabolic Rate (BMR only)</option>
-                                <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
-                                <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
-                                <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
-                                <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
-                                <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
-                            </select>
-                        </div>
+                                <!-- Calculator Inputs -->
+                                <div class="lg:col-span-7 space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
+                                        <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                                            <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
+                                            <option value="harris">Revised Harris-Benedict</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Gender</label>
+                                        <div class="flex gap-2">
+                                            <button onclick="setGender('male')" id="btn-male" class="flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700">Male</button>
+                                            <button onclick="setGender('female')" id="btn-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
+                                        <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
+                                        <input type="number" id="height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
+                                        <input type="number" id="weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                    </div>
+                                </div>
+        
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Physical Activity Level (PAL)</label>
+                                    <select id="activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                                        <option value="1.2">Basal Metabolic Rate (BMR only)</option>
+                                        <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
+                                        <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
+                                        <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
+                                        <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
+                                        <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
+                                    </select>
+                                </div>
+                                        
+                                <!-- BMR Results Area-->
+                                <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center">
+                                <div class="text-center mb-8">
+                                    <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
+                                    <div class="text-6xl font-black text-white"><span id="tdee-val">2034</span></div>
+                                    <p class="text-slate-400 mt-2 text-sm">kcal per day</p>
+                                </div>
                                 
-                        <!-- BMR Results Area-->
-                        <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center">
-                        <div class="text-center mb-8">
-                            <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
-                            <div class="text-6xl font-black text-white"><span id="tdee-val">2034</span></div>
-                            <p class="text-slate-400 mt-2 text-sm">kcal per day</p>
-                        </div>
-                        
-                        <div class="space-y-4 pt-6 border-t border-slate-800">
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-400 text-sm">Basal Metabolism (BMR)</span>
-                                <span class="font-bold text-white" id="bmr-result">1695 kcal</span>
-                            </div>
-                            <div class="bg-slate-800/50 p-4 rounded-xl space-y-3 mt-4">
-                                <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Daily Intake Targets</p>
-                                <div class="flex justify-between items-center">
-                                    <div class="flex flex-col">
-                                        <span class="text-xs font-semibold text-orange-400 uppercase">Weight Reduction</span>
-                                        <span class="text-[10px] text-slate-400">Consuming 500kcal deficit</span>
+                                <div class="space-y-4 pt-6 border-t border-slate-800">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 text-sm">Basal Metabolism (BMR)</span>
+                                        <span class="font-bold text-white" id="bmr-result">1695 kcal</span>
                                     </div>
-                                    <span class="font-bold text-orange-400 text-lg" id="loss-result">1534 kcal</span>
-                                </div>
-                                <div class="flex justify-between items-center pt-2 border-t border-slate-700/50">
-                                    <div class="flex flex-col">
-                                        <span class="text-xs font-semibold text-blue-400 uppercase">Maintenance/Active</span>
-                                        <span class="text-[10px] text-slate-400">For daily weight stability</span>
+                                    <div class="bg-slate-800/50 p-4 rounded-xl space-y-3 mt-4">
+                                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Daily Intake Targets</p>
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex flex-col">
+                                                <span class="text-xs font-semibold text-orange-400 uppercase">Weight Reduction</span>
+                                                <span class="text-[10px] text-slate-400">Consuming 500kcal deficit</span>
+                                            </div>
+                                            <span class="font-bold text-orange-400 text-lg" id="loss-result">1534 kcal</span>
+                                        </div>
+                                        <div class="flex justify-between items-center pt-2 border-t border-slate-700/50">
+                                            <div class="flex flex-col">
+                                                <span class="text-xs font-semibold text-blue-400 uppercase">Maintenance/Active</span>
+                                                <span class="text-[10px] text-slate-400">For daily weight stability</span>
+                                            </div>
+                                            <span class="font-bold text-blue-400 text-lg" id="maintain-result">2034 kcal</span>
+                                        </div>
                                     </div>
-                                    <span class="font-bold text-blue-400 text-lg" id="maintain-result">2034 kcal</span>
+                                </div>
+        
+                                <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
+                                    <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.</p>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
-                            <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
-                            <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
                         
     <!-- Game Section -->
@@ -852,10 +848,13 @@
         // Init UI
         syncAndCalculate();
         calculateBMR();
-        showSnack('energy');     
+        showSnack('energy');
+        setGender('male");
+        console.log("Wellness Portal Ready!");
     </script>
 </body>
 </html>
+
 
 
 
