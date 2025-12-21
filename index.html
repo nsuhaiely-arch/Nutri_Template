@@ -38,6 +38,31 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .bmi-bar {
+           height: 12px;
+           border-radius: 6px;
+           background: linear-gradient(to right,
+               #60a5fa 0% 18.5%,   /* Underweight (Blue) */
+               #4ade80 18.5% 23%,  /* Normal (Green) */
+               #facc15 23% 27.5%,  /* Pre-obese (Yellow) */
+               #f97316 27.5% 32.5%, /* Obese I (Orange) */
+               #ef4444 32.5% 37.5%, /* Obese II (Red) */
+               #7f1d1d 37.5% 100%   /* Obese III (Dark Red) */
+           );
+        }
+        
+        .nutrition-table th, .nutrition-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+            font-size: 0.75rem;
+        }
+        
         #game-container {
             position: relative;
             width: 100%;
@@ -63,31 +88,6 @@
             background: #10b981;
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .bmi-bar {
-           height: 12px;
-           border-radius: 6px;
-           background: linear-gradient(to right,
-               #60a5fa 0% 18.5%,   /* Underweight (Blue) */
-               #4ade80 18.5% 23%,  /* Normal (Green) */
-               #facc15 23% 27.5%,  /* Pre-obese (Yellow) */
-               #f97316 27.5% 32.5%, /* Obese I (Orange) */
-               #ef4444 32.5% 37.5%, /* Obese II (Red) */
-               #7f1d1d 37.5% 100%   /* Obese III (Dark Red) */
-           );
-        }
-        
-        .nutrition-table th, .nutrition-table td {
-            padding: 8px 12px;
-            text-align: left;
-            border-bottom: 1px solid #334155;
-            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -158,7 +158,7 @@
         </div>
     </section>
 
-    <!-- Core Educational Modules -->
+    <!-- Educational Aids -->
     <section id="guides" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16">
@@ -203,10 +203,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
-    
-        <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
                 <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
@@ -235,42 +231,6 @@
                     <p class="text-slate-600 text-sm leading-relaxed mb-6">Why you crash at 3 PM. Hint: It's the insulin spike from those 2 pieces of Karipap during the morning meeting.</p>
                     <a href="#" class="font-bold text-blue-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
                 </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Game Section -->
-    <section id="game" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-            <div>
-                <h2 class="text-4xl font-extrabold mb-6">Pantry Dash <br><span class="text-emerald-600">Catch the Health!</span></h2>
-                <p class="text-lg text-slate-600 mb-8">Quick! The pantry just got restocked. Use your mouse (or finger on mobile) to catch healthy snacks and avoid the junk.</p>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4 bg-emerald-100/50 p-4 rounded-2xl border border-emerald-100">
-                        <span class="text-2xl">🍎 🥑 🥦 🥕 🍇 🥜 🍌</span>
-                        <div class="flex flex-col">
-                            <span class="font-bold text-emerald-800">+10 Energy Points</span>
-                            <span class="text-xs text-emerald-600">Fruits, Veggies & Nuts</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 bg-rose-100/50 p-4 rounded-2xl border border-rose-100">
-                        <span class="text-2xl">🍩 🥤🍔 🍕 🍩 🥤 🍟</span>
-                         <div class="flex flex-col">
-                            <span class="font-bold text-rose-800">-15 Energy Points</span>
-                            <span class="text-xs text-rose-600">Fast Food, Sugar & Processed Carbs</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="game-container">
-                <div id="game-ui" class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-slate-900/90 text-white p-6 text-center">
-                    <div class="mb-4 text-4xl">🎮</div>
-                    <h3 class="text-3xl font-bold mb-2">Pantry Dash</h3>
-                    <p class="text-slate-400 mb-6 text-sm">Drag to move. Catch healthy food!</p>
-                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold text-lg hover:scale-105 transition shadow-lg shadow-emerald-500/20">Start Game</button>
-                </div>
-                <div class="absolute top-4 left-6 text-white font-bold text-xl z-10 bg-black/20 px-3 py-1 rounded-lg backdrop-blur-sm">Score: <span id="score">0</span></div>
-                <div id="player-paddle"></div>
             </div>
         </div>
     </section>
@@ -326,9 +286,9 @@
             <div class="max-w-5xl mx-auto px-4">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-black text-slate-900 mb-2">Health Assessment</h2>
-                    <p class="text-slate-500 italic">Localized weight classification based on Table 2-1 guidelines.</p>
+                    <p class="text-slate-500 italic">Localized for Malaysian adults based on MOH Standards.</p>
                 </div>
-
+                
                 <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
                     <!-- Tabs -->
                     <div class="flex bg-slate-50 border-b border-slate-100">
@@ -339,7 +299,71 @@
                             <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator
                         </button>
                     </div>
-                    
+                    <div class="p-8 md:p-12">
+                        <!-- Inputs -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black uppercase text-slate-400">Weight (kg)</label>
+                                <input type="number" id="global-weight" value="70" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-xl font-bold" oninput="syncAndCalculate()">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black uppercase text-slate-400">Height (cm)</label>
+                                <input type="number" id="global-height" value="170" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-xl font-bold" oninput="syncAndCalculate()">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black uppercase text-slate-400">Gender</label>
+                                <div class="flex gap-2 h-[60px]">
+                                    <button onclick="updateGender('male')" id="g-male" class="flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700">M</button>
+                                    <button onclick="updateGender('female')" id="g-female" class="flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400">F</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BMI Result Area -->
+                        <div id="calc-bmi" class="tab-content-calc active">
+                            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-4">Your Result</h3>
+                                    <div class="flex items-baseline gap-3 mb-4">
+                                        <span id="bmi-val" class="text-7xl font-black text-green-600">24.2</span>
+                                        <span id="bmi-status" class="px-4 py-1 rounded-full bg-green-100 text-green-700 font-bold text-xs uppercase">Normal</span>
+                                    </div>
+                                    <div class="bmi-bar mb-6"></div>
+                                    <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
+                                    <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
+                                </div>
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                    <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
+                                    <div class="space-y-2 text-[11px] font-bold">
+                                        <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
+                                            <span>Underweight (&lt; 18.5)</span>
+                                            <span>Low Risk*</span>
+                                        </div>
+                                        <div class="flex justify-between p-2 rounded bg-green-50 text-green-700 border border-green-200">
+                                            <span>Normal (18.5 – 22.9)</span>
+                                            <span>Optimal</span>
+                                        </div>
+                                        <div class="flex justify-between p-2 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                            <span>Pre-obese (23.0 – 27.4)</span>
+                                            <span>Increased</span>
+                                        </div>
+                                        <div class="flex justify-between p-2 rounded bg-orange-50 text-orange-700 border border-orange-100">
+                                            <span>Obese I (27.5 – 32.4)</span>
+                                            <span>High</span>
+                                        </div>
+                                        <div class="flex justify-between p-2 rounded bg-red-50 text-red-700 border border-red-100">
+                                            <span>Obese II (32.5 – 37.4)</span>
+                                            <span>Very High</span>
+                                        </div>
+                                        <div class="flex justify-between p-2 rounded bg-red-900 text-white">
+                                            <span>Obese III (&ge; 37.5)</span>
+                                            <span>Extremely High</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management Level 1+.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
                     <div class="max-w-5xl mx-auto px-4">
                         <!-- Inputs -->
                         <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100">
@@ -392,52 +416,6 @@
                                 <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
                             </select>
                         </div>
-
-                        <!-- BMI Result Area -->
-                        <div id="calc-bmi" class="tab-content-calc active">
-                            <div class="grid lg:grid-cols-2 gap-12 items-start">
-                                <div>
-                                    <h3 class="text-2xl font-bold mb-4">Your Result</h3>
-                                    <div class="flex items-baseline gap-3 mb-4">
-                                        <span id="bmi-val" class="text-7xl font-black text-green-600">24.2</span>
-                                        <span id="bmi-status" class="px-4 py-1 rounded-full bg-green-100 text-green-700 font-bold text-xs uppercase">Normal</span>
-                                    </div>
-                                    <div class="bmi-bar mb-6"></div>
-                                    <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
-                                    <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
-                                </div>
-                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                    <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
-                                    <div class="space-y-2 text-[11px] font-bold">
-                                        <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
-                                            <span>Underweight (&lt; 18.5)</span>
-                                            <span>Low Risk*</span>
-                                        </div>
-                                        <div class="flex justify-between p-2 rounded bg-green-50 text-green-700 border border-green-200">
-                                            <span>Normal (18.5 – 22.9)</span>
-                                            <span>Optimal</span>
-                                        </div>
-                                        <div class="flex justify-between p-2 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
-                                            <span>Pre-obese (23.0 – 27.4)</span>
-                                            <span>Increased</span>
-                                        </div>
-                                        <div class="flex justify-between p-2 rounded bg-orange-50 text-orange-700 border border-orange-100">
-                                            <span>Obese I (27.5 – 32.4)</span>
-                                            <span>High</span>
-                                        </div>
-                                        <div class="flex justify-between p-2 rounded bg-red-50 text-red-700 border border-red-100">
-                                            <span>Obese II (32.5 – 37.4)</span>
-                                            <span>Very High</span>
-                                        </div>
-                                        <div class="flex justify-between p-2 rounded bg-red-900 text-white">
-                                            <span>Obese III (&ge; 37.5)</span>
-                                            <span>Extremely High</span>
-                                        </div>
-                                    </div>
-                                    <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management Level 1+.</p>
-                                </div>
-                            </div>
-                        </div>
                                 
                         <!-- BMR Results Area-->
                         <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center">
@@ -480,7 +458,42 @@
             </div>
         </div>
     </section>
-                    
+                        
+    <!-- Game Section -->
+    <section id="game" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl font-extrabold mb-6">Pantry Dash <br><span class="text-emerald-600">Catch the Health!</span></h2>
+                <p class="text-lg text-slate-600 mb-8">Quick! The pantry just got restocked. Use your mouse (or finger on mobile) to catch healthy snacks and avoid the junk.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-emerald-100/50 p-4 rounded-2xl border border-emerald-100">
+                        <span class="text-2xl">🍎 🥑 🥦 🥕 🍇 🥜 🍌</span>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-emerald-800">+10 Energy Points</span>
+                            <span class="text-xs text-emerald-600">Fruits, Veggies & Nuts</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-rose-100/50 p-4 rounded-2xl border border-rose-100">
+                        <span class="text-2xl">🍩 🥤🍔 🍕 🍩 🥤 🍟</span>
+                         <div class="flex flex-col">
+                            <span class="font-bold text-rose-800">-15 Energy Points</span>
+                            <span class="text-xs text-rose-600">Fast Food, Sugar & Processed Carbs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="game-container">
+                <div id="game-ui" class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-slate-900/90 text-white p-6 text-center">
+                    <div class="mb-4 text-4xl">🎮</div>
+                    <h3 class="text-3xl font-bold mb-2">Pantry Dash</h3>
+                    <p class="text-slate-400 mb-6 text-sm">Drag to move. Catch healthy food!</p>
+                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold text-lg hover:scale-105 transition shadow-lg shadow-emerald-500/20">Start Game</button>
+                </div>
+                <div class="absolute top-4 left-6 text-white font-bold text-xl z-10 bg-black/20 px-3 py-1 rounded-lg backdrop-blur-sm">Score: <span id="score">0</span></div>
+                <div id="player-paddle"></div>
+            </div>
+        </div>
+    </section>             
     <!-- Game BGM Audio -->
     <audio id="game-bgm" loop src="IX.mp3"></audio>
 
@@ -843,6 +856,7 @@
     </script>
 </body>
 </html>
+
 
 
 
