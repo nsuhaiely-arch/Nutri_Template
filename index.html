@@ -97,16 +97,6 @@
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
         }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -544,31 +534,6 @@
     </footer>
 
     <script>
-        // --- SNACK SELECTOR ---
-        function showSnack(type) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('snack-' + type).classList.add('active');
-            
-            const buttons = ['energy', 'focus', 'stress', 'hunger'];
-            buttons.forEach(btn => {
-                const el = document.getElementById('btn-' + btn);
-                if(btn === type) {
-                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-                } else {
-                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                }
-            });        
-
-            const img = document.getElementById('snack-img');
-            const images = {
-                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-            };
-            img.src = images[type];               
-        }
-        
         // --- HEALTH TOOLS ---
         function switchView(type) {
             const bmiView = document.getElementById('view-bmi');
@@ -853,6 +818,7 @@
                 }
             }, 16);
         }
+        // --- SNACK SELECTOR ---
         function showSnack(type) {
             // Hide all contents
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -885,12 +851,13 @@
         }
     
         // Initialize calculations
-        showSnack('energy');
         calculateAll();
         CalculateBMR();
+        showSnack('energy');
     </script>
 </body>
 </html>
+
 
 
 
