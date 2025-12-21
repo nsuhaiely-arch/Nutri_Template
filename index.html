@@ -32,10 +32,10 @@
         .tab-content {
             display: none;
         }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
         
         .tab-content.active {
@@ -51,7 +51,12 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+        .tab-content-calc {
+            display: none;
+        }
+        .tab-content-calc.active {
+            display: block;
+        }
         .bmi-bar {
            height: 12px;
            border-radius: 6px;
@@ -72,7 +77,9 @@
             border-bottom: 1px solid #334155;
             font-size: 0.75rem;
         }
-        .hidden { display: none; } 
+        .el.classList.remove('active');
+        .el.classList.add('active');
+        }
         
         #game-container {
             position: relative;
@@ -303,13 +310,15 @@
                 <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
                     <!-- Tabs -->
                     <div class="flex bg-slate-50 border-b border-slate-100">
-                        <button onclick="switchTab('bmi')" id="btn-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
+                        <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
                             <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)</button>
-                        <button onclick="switchTab('bmr')" id="btn-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
+                        <button onclick="switchCalc('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
                             <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator</button>
                     </div>
                     
                     <div class="p-8 md:p-12">
+                        <div id="calc-bmi" class="tab-content-calc active">
+                        <div>
                         <!-- Inputs -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                             <div class="space-y-2">
@@ -374,7 +383,7 @@
                             </div>
                         </div>
 
-                        <div id="bmr-inputs" class="hidden animate-slideup)
+                        <div id="calc-bmr" class="tab-content-calc")
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                                 </div>
                                 <!-- Calculator Inputs -->
@@ -394,7 +403,8 @@
                                             <button onclick="setGender('female')" id="btn-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-3 gap-4">
+                                    <div id="calc-bmr" class="tab-content-calc hidden animate-slideup">
+                                        <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
                                         <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
@@ -421,7 +431,8 @@
                                     </select>
                                 </div>
                                         
-                                <!-- BMR Results Area-->
+                    <!-- BMR Results Area-->
+                          <div id="calc-bmr" class="tab-content-calc">
                                 <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center">
                                 <div class="text-center mb-8">
                                     <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
@@ -451,7 +462,7 @@
                                             <span class="font-bold text-blue-400 text-lg" id="maintain-result">2034 kcal</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div>      
         
                                 <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
                                     <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
@@ -662,13 +673,35 @@
             
             // Show selected
             document.getElementById('snack-' + type).classList.add('active');
+            
+            // Update buttons
+            const buttons = ['energy', 'focus', 'stress', 'hunger'];
+            buttons.forEach(btn => {
+                const el = document.getElementById('btn-' + btn);
+                if(btn === type) {
+                el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
+                } else {
+                el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
+                }
+            });        
 
             // Activate specific
             document.getElementById('content-' + tabId).classList.add('active');
             const activeBtn = document.getElementById('btn-' + tabId);
             activeBtn.classList.add('active-tab');
-        }
-
+    
+            // Update Image
+            const img = document.getElementById('snack-img');
+            const images = {
+                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+            };
+            
+            img.src = images[type];       
+                
+        }       
         // Game Logic
         const container = document.getElementById('game-container');
         const paddle = document.getElementById('player-paddle');
@@ -712,12 +745,17 @@
             scoreDisplay.innerText = score;
             ui.style.display = 'none';
             
-            // Play Music
-            bgm.volume = 0.4; // Set volume to 40%
-            bgm.currentTime = 0;
-            bgm.play().catch(e => console.log("Audio play failed (user interaction required)", e));
+            // Play Music ONLY from user click
+            if (bgm.paused) {
+                bgm.volume = 0.4; // Set volume to 40%
+                bgm.currentTime = 0;
+                bgm.play().catch(e => console.log("Audio play failed (user interaction required)", e));
 
-            // Spawn items loop
+             spawnItems();
+             startTimer();
+        }
+                
+        function spawnItems() {
             const spawnInterval = setInterval(() => {
                 if (!gameActive) {
                     clearInterval(spawnInterval);
@@ -725,15 +763,18 @@
                 }
                 createItem();
             }, 800);
+        }
 
-            // Game Timer (30 seconds)
+        function startTimer() {
             setTimeout(() => {
                 gameActive = false;
-                
-                // Stop Music
-                bgm.pause();
-                bgm.currentTime = 0;
-
+                 bgm.pause();
+                 bgm.currentTime = 0;
+                 showGameOver();
+             }, 30000);
+        }        
+        function showGameOver() {
+            // Update UI text only
                 ui.innerHTML = `
                     <h3 class="text-3xl font-bold mb-2">Time's Up!</h3>
                     <p class="mb-4 text-xl">Energy Level: <span class="${score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${score}</span></p>
@@ -741,9 +782,8 @@
                 `;
                 ui.style.display = 'flex';
                 
-                // Cleanup existing items
-                document.querySelectorAll('.item-drop').forEach(el => el.remove());
-            }, 30000);
+            // Cleanup existing items
+            document.querySelectorAll('.item-drop').forEach(el => el.remove());
         }
 
         function createItem() {
@@ -804,56 +844,6 @@
                 }
             }, 16);
         }
-
-        function showSnack(type) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected
-            document.getElementById('snack-' + type).classList.add('active');
-        
-            // Update buttons
-            const buttons = ['energy', 'focus', 'stress', 'hunger'];
-            buttons.forEach(btn => {
-                const el = document.getElementById('btn-' + btn);
-                if(btn === type) {
-                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-                } else {
-                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                }
-            });
-
-            // Update Image
-            const img = document.getElementById('snack-img');
-            const images = {
-                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-            };
-            img.src = images[type];
-        }
-
-        // Calculator Logic
-        const bRange = document.getElementById('breakfast-range');
-        const wRange = document.getElementById('water-range');
-        const result = document.getElementById('calc-result');
-
-        function updateCalc() {
-            const bValue = parseInt(bRange.value);
-            const wValue = parseInt(wRange.value);
-            
-            // Dummy logic for productivity
-            let score = 5 + (wValue * 2) - (bValue * 1.5);
-            if (score < 0) score = 2;
-            result.innerText = Math.round(score);
-        }
-
-        bRange.addEventListener('input', updateCalc);
-        wRange.addEventListener('input', updateCalc);
-
         // Init UI
         syncAndCalculate();
         calculateBMR();
@@ -863,6 +853,7 @@
     </script>
 </body>
 </html>
+
 
 
 
