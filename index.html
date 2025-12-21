@@ -28,21 +28,29 @@
             transform: translateY(-5px);
             transition: all 0.3s ease;
         }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .tab-content, 
+            display: none;   
         }
         
-        .tab-content, .tab-content-calc {
-            display: none;
-            
-        }
-        .tab-content.active, .tab-content-calc.active {
+        .tab-content.active {
             display: block;
             animation: fadeIn 0.5s ease;
-            
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }   
+        }
+        .bmi-content {
+             display: flex;
+             gap: 2rem;  /* jarak antara column */
+             flex-wrap: wrap; /* responsive supaya kecil screen jadi stack */
+         }
+
+         .bmi-bar-column, .nutrition-table-column {
+             flex: 1; /* masing-masing occupy half space */
+         }
+
         .bmi-bar {
            height: 12px;
            border-radius: 6px;
@@ -54,7 +62,6 @@
                #ef4444 32.5% 37.5%, /* Obese II (Red) */
                #7f1d1d 37.5% 100%   /* Obese III (Dark Red) */
            );
-           position: relative;
         }
         
         .nutrition-table th, .nutrition-table td {
@@ -107,10 +114,9 @@
                 <div class="hidden md:flex space-x-8 font-medium text-slate-600">
                     <a href="#home" class="hover:text-green-600 transition">Home</a>
                     <a href="#guides" class="hover:text-green-600 transition">Educational Aids</a>
-                    <a href="#hacks" class="hover:text-emerald-600 transition">Office Hacks</a>
-                    <a href="#game" class="hover:text-emerald-600 transition">Snack Game</a>
                     <a href="#snacks" class="hover:text-green-600 transition">Smart Snacks</a>
                     <a href="#tools" class="hover:text-green-600 transition">Tools</a>
+                    <a href="#game" class="hover:text-emerald-600 transition">Snack Game</a>  
                 </div>
                 <button class="bg-green-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-green-700 transition shadow-md">
                     Learn More
@@ -291,172 +297,172 @@
         </div>
 
         <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
-            <!-- Tabs -->
+            <!-- Navigation Tabs -->
             <div class="flex bg-slate-50 border-b border-slate-100">
-                <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
+                <button onclick="switchView('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
                     <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)
                 </button>
-                <button onclick="switchCalc('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
+                <button onclick="switchView('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
                     <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator
                 </button>
             </div>
-
-            <div class="p-8 md:p-12">
-                <!-- BMI Calculator -->
-                <div id="calc-bmi" class="tab-content-calc active">
-                    <div class="grid lg:grid-cols-2 gap-12 items-start">
-                        <div>
-                            <h3 class="text-2xl font-bold mb-4">Your Result</h3>
-                            <div class="flex items-baseline gap-3 mb-4">
+            <!-- BMI VIEW -->
+            <div id="view-bmi" class="tab-content active">
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Your BMI Result</h3>
+                        <div class="flex items-baseline gap-3 mb-4">
                                 <span id="bmi-val" class="text-7xl font-black text-green-600">24.2</span>
                                 <span id="bmi-status" class="px-4 py-1 rounded-full bg-green-100 text-green-700 font-bold text-xs uppercase">Normal</span>
-                            </div>
-                            <div class="bmi-bar mb-6"></div>
-                            <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
-                            <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
                         </div>
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                            <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
-                            <div class="space-y-2 text-[11px] font-bold">
-                                <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
-                                    <span>Underweight (&lt; 18.5)</span>
-                                    <span>Low Risk*</span>
-                                </div>
-                                <div class="flex justify-between p-2 rounded bg-green-50 text-green-700 border border-green-200">
-                                    <span>Normal (18.5 – 22.9)</span>
-                                    <span>Optimal</span>
-                                </div>
-                                <div class="flex justify-between p-2 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
-                                    <span>Pre-obese (23.0 – 27.4)</span>
-                                    <span>Increased</span>
-                                </div>
-                                <div class="flex justify-between p-2 rounded bg-orange-50 text-orange-700 border border-orange-100">
-                                    <span>Obese I (27.5 – 32.4)</span>
-                                    <span>High</span>
-                                </div>
-                                <div class="flex justify-between p-2 rounded bg-red-50 text-red-700 border border-red-100">
-                                    <span>Obese II (32.5 – 37.4)</span>
-                                    <span>Very High</span>
-                                </div>
-                                <div class="flex justify-between p-2 rounded bg-red-900 text-white">
-                                    <span>Obese III (&ge; 37.5)</span>
-                                    <span>Extremely High</span>
-                                </div>
-                            </div>
-                            <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management Level 1+.</p>
-                        </div>
+                        <div class="bmi-bar mb-6"></div>
+                        <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
+                        <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
                     </div>
-                    <!-- BMI Inputs -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-400">Weight (kg)</label>
-                            <input type="number" id="bmi-weight" value="70" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-xl font-bold" oninput="syncAndCalculate()">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
+                        <div class="space-y-2 text-[11px] font-bold">
+                            <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
+                                <span>Underweight (&lt; 18.5)</span>
+                                <span>Low Risk*</span>
+                            </div>
+                            <div class="flex justify-between p-2 rounded bg-green-50 text-green-700 border border-green-200">
+                                <span>Normal (18.5 – 22.9)</span>
+                                <span>Optimal</span>
+                            </div>
+                            <div class="flex justify-between p-2 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                <span>Pre-obese (23.0 – 27.4)</span>
+                                <span>Increased</span>
+                            </div>
+                            <div class="flex justify-between p-2 rounded bg-orange-50 text-orange-700 border border-orange-100">
+                                <span>Obese I (27.5 – 32.4)</span>
+                                <span>High</span>
+                            </div>
+                            <div class="flex justify-between p-2 rounded bg-red-50 text-red-700 border border-red-100">
+                                <span>Obese II (32.5 – 37.4)</span>
+                                <span>Very High</span>
+                            </div>
+                            <div class="flex justify-between p-2 rounded bg-red-900 text-white">
+                                <span>Obese III (&ge; 37.5)</span>
+                                <span>Extremely High</span>
+                            </div>
                         </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-400">Height (cm)</label>
-                            <input type="number" id="bmi-height" value="170" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-xl font-bold" oninput="syncAndCalculate()">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-400">Gender</label>
-                            <div class="flex gap-2 h-[60px]">
+                        <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management Level 1+.</p>
+                    </div>
+                </div>
+            
+                <!-- BMI Inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400">Weight (kg)</label>
+                        <input type="number" id="bmi-weight" value="70" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-xl font-bold" oninput="syncAndCalculate()">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400">Height (cm)</label>
+                        <input type="number" id="bmi-height" value="170" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-xl font-bold" oninput="syncAndCalculate()">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400">Gender</label>
+                        <div class="flex gap-2 h-[60px]">
                                 <button onclick="updateGender('male')" id="g-male" class="flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700">M</button>
                                 <button onclick="updateGender('female')" id="g-female" class="flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400">F</button>
-                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- BMR Calculator -->
-                <div id="calc-bmr" class="tab-content-calc hidden">
-                    <div class="grid lg:grid-cols-12 gap-10">
-                        <!-- Inputs -->
-                        <div class="lg:col-span-7 space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
-                                    <select id="bmr-formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
-                                        <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
-                                        <option value="harris">Revised Harris-Benedict</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Gender</label>
-                                    <div class="flex gap-2">
-                                        <button onclick="setGender('male')" id="bmr-male" class="flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700">Male</button>
-                                        <button onclick="setGender('female')" id="bmr-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
-                                    <input type="number" id="bmr-age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
-                                    <input type="number" id="bmr-height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
-                                    <input type="number" id="bmr-weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Physical Activity Level (PAL)</label>
-                                <select id="bmr-activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
-                                    <option value="1.2">Basal Metabolic Rate (BMR only)</option>
-                                    <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
-                                    <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
-                                    <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
-                                    <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
-                                    <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- BMR Results -->
-                        <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center">
-                            <div class="text-center mb-8">
-                                <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
-                                <div class="text-6xl font-black text-white"><span id="tdee-val">2034</span></div>
-                                <p class="text-slate-400 mt-2 text-sm">kcal per day</p>
-                            </div>
-
-                            <div class="space-y-4 pt-6 border-t border-slate-800">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-slate-400 text-sm">Basal Metabolism (BMR)</span>
-                                    <span class="font-bold text-white" id="bmr-result">1695 kcal</span>
-                                </div>
-                                <div class="bg-slate-800/50 p-4 rounded-xl space-y-3 mt-4">
-                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Daily Intake Targets</p>
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex flex-col">
-                                            <span class="text-xs font-semibold text-orange-400 uppercase">Weight Reduction</span>
-                                            <span class="text-[10px] text-slate-400">Consuming 500kcal deficit</span>
-                                        </div>
-                                        <span class="font-bold text-orange-400 text-lg" id="loss-result">1534 kcal</span>
-                                    </div>
-                                    <div class="flex justify-between items-center pt-2 border-t border-slate-700/50">
-                                        <div class="flex flex-col">
-                                            <span class="text-xs font-semibold text-blue-400 uppercase">Maintenance/Active</span>
-                                            <span class="text-[10px] text-slate-400">For daily weight stability</span>
-                                        </div>
-                                        <span class="font-bold text-blue-400 text-lg" id="maintain-result">2034 kcal</span>
-                                    </div>
-                                </div>
-
-                                <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
-                                    <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
-                                    <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.</p>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            
+            <!-- BMR VIEW -->
+            <div id="view-bmr" class="tab-content">
+                <div class="max-w-5xl mx-auto px-4">
+                    <!-- Inputs -->
+                    <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100">
+                    <div class="text-center mb-10">
+                         <h2 class="text-3xl font-bold mb-2">BMR & Energy Requirement Calculator</h2>
+                         <p class="text-slate-500">Validated calculations aligned with Malaysian clinical nutrition practices.</p>
                     </div>
-                </div> <!-- End BMR -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    </div>
+                    <!-- BMR Inputs -->
+                    <div class="lg:col-span-7 space-y-6">
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
+                            <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                                <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
+                                <option value="harris">Revised Harris-Benedict</option>
+                            </select>
+                         </div>
+                         <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Gender</label>
+                            <div class="flex gap-2">
+                                 <button onclick="setGender('male')" id="btn-male" class="flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700">Male</button>
+                                 <button onclick="setGender('female')" id="btn-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
+                            </div>
+                         </div>
+                         <div class="grid grid-cols-3 gap-4">
+                         <div>
+                             <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
+                             <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                         </div>
+                         <div>
+                             <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
+                             <input type="number" id="height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                         </div>
+                         <div>
+                             <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
+                             <input type="number" id="weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                         </div>
+                    </div>
+                             
+                    <div>
+                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Physical Activity Level (PAL)</label>
+                         <select id="activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                             <option value="1.2">Basal Metabolic Rate (BMR only)</option>
+                             <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
+                             <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
+                             <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
+                             <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
+                             <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
+                         </select>
+                    </div>
+                    <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center">
+                    <div class="text-center mb-8">
+                         <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
+                         <div class="text-6xl font-black text-white"><span id="tdee-val">2034</span></div>
+                         <p class="text-slate-400 mt-2 text-sm">kcal per day</p>  
+                         <div class="space-y-4 pt-6 border-t border-slate-800">
+                             <div class="flex justify-between items-center">
+                                <span class="text-slate-400 text-sm">Basal Metabolism (BMR)</span>
+                                <span class="font-bold text-white" id="bmr-result">1695 kcal</span>
+                             </div>
+                         <div class="bg-slate-800/50 p-4 rounded-xl space-y-3 mt-4">
+                             <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Daily Intake Targets</p>
+                         <div class="flex justify-between items-center">
+                             <div class="flex flex-col">
+                                <span class="text-xs font-semibold text-orange-400 uppercase">Weight Reduction</span>
+                                <span class="text-[10px] text-slate-400">Consuming 500kcal deficit</span>
+                             </div>
+                                 <span class="font-bold text-orange-400 text-lg" id="loss-result">1534 kcal</span>
+                             </div>
+                             <div class="flex justify-between items-center pt-2 border-t border-slate-700/50">
+                                 <div class="flex flex-col">
+                                     <span class="text-xs font-semibold text-blue-400 uppercase">Maintenance/Active</span>
+                                     <span class="text-[10px] text-slate-400">For daily weight stability</span>
+                                 </div>
+                                 <span class="font-bold text-blue-400 text-lg" id="maintain-result">2034 kcal</span>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                         <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
+                         <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.</p>
+                    </div>
+                </div>
             </div>
         </div>
-
-    </section>                    
+    </section>
+                        
     <!-- Game Section -->
     <section id="game" class="py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
@@ -491,10 +497,12 @@
                 <div id="player-paddle"></div>
             </div>
         </div>
-    </section>             
-    <!-- Game BGM Audio -->
-    <audio id="game-bgm" loop src="IX.mp3"></audio>
-
+    </div>               
+        <!-- Game BGM Audio -->
+        <audio id="game-bgm" loop src="IX.mp3"></audio>
+    </div>
+    </section>
+                
     <!-- Footer -->
     <footer class="bg-white py-12 border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-4 text-center">
@@ -517,27 +525,58 @@
     </footer>
 
     <script>
-        // --- CALCULATORS ---
-        function switchCalc(type) {
-            document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
-            document.getElementById('calc-' + type).classList.add('active');
-            document.getElementById('tab-bmi').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmi' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400'}`;
-            document.getElementById('tab-bmr').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmr' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400'}`;
-        }
+        // --- SNACK SELECTOR ---
+        function showSnack(type) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('snack-' + type).classList.add('active');
+            
+            const buttons = ['energy', 'focus', 'stress', 'hunger'];
+            buttons.forEach(btn => {
+                const el = document.getElementById('btn-' + btn);
+                if(btn === type) {
+                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
+                } else {
+                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
+                }
+            });        
 
+            const img = document.getElementById('snack-img');
+            const images = {
+                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+            };
+            img.src = images[type];               
+        }
+        
+        // --- HEALTH TOOLS ---
+        function switchView(type) {
+           document.getElementById('view-bmi').classList.remove('active');
+           document.getElementById('view-bmr').classList.remove('active');
+           document.getElementById('tab-bmi').classList.remove('border-green-500', 'text-green-600', 'bg-white');
+           document.getElementById('tab-bmr').classList.remove('border-green-500', 'text-green-600', 'bg-white');
+
+            document.getElementById('view-' + view).classList.add('active');
+            const activeTab = document.getElementById('tab-' + view);
+            activeTab.classList.add('border-green-500', 'text-green-600', 'bg-white');
+            activeTab.classList.remove('border-transparent', 'text-slate-400');
+        }
+        
         function updateGender(g) {
             currentGender = g;
             document.getElementById('g-male').className = g === 'male' ? 'flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700' : 'flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400';
             document.getElementById('g-female').className = g === 'female' ? 'flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700' : 'flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400';
-            syncAndCalculate();
+            calculateAll();
         }
 
-        function syncAndCalculate() {
+        function CalculateAll() {
             const w = parseFloat(document.getElementById('global-weight').value) || 0;
             const h = parseFloat(document.getElementById('global-height').value) || 0;
             const a = parseFloat(document.getElementById('global-age').value) || 0;
             const pal = parseFloat(document.getElementById('pal-select').value);
 
+            // BMI
             if (h > 0) {
                 const bmi = w / ((h/100) * (h/100));
                 document.getElementById('bmi-val').innerText = bmi.toFixed(1);
@@ -647,44 +686,8 @@
             document.getElementById('maintain-result').innerText = Math.round(tdee) + " kcal";
         }
 
-        function showSnack(type) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected
-            document.getElementById('snack-' + type).classList.add('active');
-            
-            // Update buttons
-            const buttons = ['energy', 'focus', 'stress', 'hunger'];
-            buttons.forEach(btn => {
-                const el = document.getElementById('btn-' + btn);
-                if(btn === type) {
-                el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-                } else {
-                el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                }
-            });        
-
-            // Activate specific
-            document.getElementById('content-' + tabId).classList.add('active');
-            const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.classList.add('active-tab');
-    
-            // Update Image
-            const img = document.getElementById('snack-img');
-            const images = {
-                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-            };
-            
-            img.src = images[type];       
-                
-        }       
-        // Game Logic
+        
+        // --- GAME LOGIC ---
         const container = document.getElementById('game-container');
         const paddle = document.getElementById('player-paddle');
         const scoreDisplay = document.getElementById('score');
@@ -692,7 +695,7 @@
         
         let score = 0;
         let gameActive = false;
-        let paddlePos = 185;
+        let paddlePos = 0;
         const bgm = document.getElementById('game-bgm'); // Get Audio Element
         
         const items = [
@@ -701,25 +704,22 @@
         ];
         const goodItems = [ '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋'];
         
-        // Mouse & Touch Handler
-        function updatePaddle(clientX) {
-             if (!gameActive) return;
+       function updatePaddle(clientX) {
+            if (!gameActive) return;
             const rect = container.getBoundingClientRect();
-            let x = clientX - rect.left - 40; // Center paddle
-            
-            // Boundaries
+            let x = clientX - rect.left - 40;
             if (x < 0) x = 0;
             if (x > rect.width - 80) x = rect.width - 80;
-            
             paddlePos = x;
             paddle.style.left = x + 'px';
-        }
+            paddle.style.transform = 'none';
+       }
 
         container.addEventListener('mousemove', (e) => updatePaddle(e.clientX));
         container.addEventListener('touchmove', (e) => {
-            e.preventDefault(); // Stop scrolling
+            e.preventDefault();
             updatePaddle(e.touches[0].clientX);
-        });
+        }, { passive: false });
 
         function startGame() {
             gameActive = true;
@@ -733,28 +733,19 @@
                 bgm.currentTime = 0;
                 bgm.play().catch(e => console.log("Audio play failed (user interaction required)", e));
 
-             spawnItems();
-             startTimer();
-        }
-                
-        function spawnItems() {
-            const spawnInterval = setInterval(() => {
-                if (!gameActive) {
-                    clearInterval(spawnInterval);
-                    return;
-                }
+             const spawner = setInterval(() => {
+                if (!gameActive) { clearInterval(spawner); return; }
                 createItem();
             }, 800);
-        }
 
-        function startTimer() {
             setTimeout(() => {
                 gameActive = false;
-                 bgm.pause();
-                 bgm.currentTime = 0;
-                 showGameOver();
-             }, 30000);
-        }        
+                ui.innerHTML = `<h3 class="text-3xl font-bold mb-2">Game Over</h3><p class="mb-4">Score: ${score}</p><button onclick="startGame()" class="bg-emerald-500 px-8 py-3 rounded-full font-bold">Try Again</button>`;
+                ui.style.display = 'flex';
+                document.querySelectorAll('.item-drop').forEach(el => el.remove());
+            }, 20000);
+        }
+            
         function showGameOver() {
             // Update UI text only
                 ui.innerHTML = `
@@ -826,15 +817,14 @@
                 }
             }, 16);
         }
-        // Init UI
-        syncAndCalculate();
-        calculateBMR();
+            
+        // Init 
         showSnack('energy');
-        setGender('male");
-        console.log("Wellness Portal Ready!");
+        calculateAll();
     </script>
 </body>
 </html>
+
 
 
 
