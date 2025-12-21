@@ -1,1 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Educational Aids | Office Wellness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+
+        /* Results area (BMI & BMR) - allow side-by-side by default, and single-mode when a tab is selected */
+        .tab-content-calc {
+            display: block;
+        }
+
+        /* When in single-mode, hide all then only show the one with .active */
+        #calc-results.single .tab-content-calc {
+            display: none;
+        }
+
+        #calc-results.single .tab-content-calc.active {
+            display: block;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            background: #0f172a;
+            border-radius: 24px;
+            overflow: hidden;
+            touch-action: none; 
+        }
+
+        .item-drop {
+            position: absolute;
+            font-size: 2.5rem;
+            user-select: none;
+            transition: top 0.05s linear;
+        }
+
+        #player-paddle {
+            position: absolute;
+            bottom: 20px;
+            width: 80px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .bmi-bar {
+           height: 12px;
+           border-radius: 6px;
+           background: linear-gradient(to right,
+               #60a5fa 0% 18.5%,   /* Underweight (Blue) */
+               #4ade80 18.5% 23%,  /* Normal (Green) */
+               #facc15 23% 27.5%,  /* Pre-obese (Yellow) */
+               #f97316 27.5% 32.5%, /* Obese I (Orange) */
+               #ef4444 32.5% 37.5%, /* Obese II (Red) */
+               #7f1d1d 37.5% 100%   /* Obese III (Dark Red) */
+           );
+        }
+        
+        .nutrition-table th, .nutrition-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-green-600 p-2 rounded-lg">
+                        <i class="fas fa-apple-whole text-white text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">WorkBites</span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-medium text-slate-600">
+                    <a href="#home" class="hover:text-green-600 transition">Home</a>
+                    <a href="#guides" class="hover:text-green-600 transition">Educational Aids</a>
+                    <a href="#hacks" class="hover:text-emerald-600 transition">Office Hacks</a>
+                    <a href="#game" class="hover:text-emerald-600 transition">Snack Game</a>
+                    <a href="#snacks" class="hover:text-green-600 transition">Smart Snacks</a>
+                    <a href="#tools" class="hover:text-green-600 transition">Tools</a>
+                </div>
+                <button class="bg-green-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-green-700 transition shadow-md">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 hero-gradient">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 space-y-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
+                    Smart Choices for a <span class="text-green-600 font-serif italic">Healthier Workday</span>
+                </h1>
+                <p class="text-lg text-slate-600 max-w-lg">
+                    Transform your productivity and long-term health with our specialized Nutrition Educational Aids designed specifically for the modern office environment.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#guides" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition">
+                        Explore Healthy Plate <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="flex items-center gap-3 px-4 py-2 bg-white/50 rounded-xl border border-white">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-400 border-2 border-white flex items-center justify-center text-[10px] text-white">HR</div>
+                            <div class="w-8 h-8 rounded-full bg-orange-400 border-2 border-white flex items-center justify-center text-[10px] text-white">IT</div>
+                            <div class="w-8 h-8 rounded-full bg-purple-400 border-2 border-white flex items-center justify-center text-[10px] text-white">CEO</div>
+                        </div>
+                        <span class="text-sm font-medium text-slate-500">Trusted by 500+ Offices</span>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 mt-12 md:mt-0 relative">
+                <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10">
+                    <img src="https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&fit=crop&q=80&w=800" alt="Healthy lunch bowl" class="rounded-2xl w-full h-80 object-cover">
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-bolt text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Abstract blobs -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+                <div class="absolute -bottom-8 -left-8 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Educational Modules -->
+    <section id="guides" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Workplace Nutrition Aids</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Science-backed visual guides and resources to help employees navigate lunch breaks, meeting catering, and vending machine temptations.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Aid 1 -->
+                <div class="p-8 rounded-3xl border border-slate-100 bg-slate-50 card-hover">
+                    <div class="w-14 h-14 bg-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-100">
+                        <i class="fas fa-utensils text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">The "Healthy Plate" Guide</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">A visual blueprint for balancing your lunch to avoid the 3 PM crash. Learn the 2:1:1 ratio of greens, proteins, and complex carbs.</p>
+                    <button class="text-green-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                        Download PDF <i class="fas fa-download"></i>
+                    </button>
+                </div>
+
+                <!-- Aid 2 -->
+                <div class="p-8 rounded-3xl border border-slate-100 bg-slate-50 card-hover">
+                    <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-100">
+                        <i class="fas fa-droplet text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Hydration & Brain Fog</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">Did you know 1% dehydration leads to 12% drop in productivity? Track your intake with our digital desktop companion.</p>
+                    <button class="text-blue-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                        Open Tracker <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+
+                <!-- Aid 3 -->
+                <div class="p-8 rounded-3xl border border-slate-100 bg-slate-50 card-hover">
+                    <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-100">
+                        <i class="fas fa-mug-hot text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Caffeine Timing Map</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">Stop drinking coffee at the wrong time. Use our guide to align caffeine intake with your natural cortisol rhythms for max energy.</p>
+                    <button class="text-orange-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                        View Infographic <i class="fas fa-image"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-utensils text-emerald-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Nasi Campur Strategy</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">The "Bungkus" Rule: Fill 50% of your container with cabbage/ulam before adding the rice. It forces a smaller rice portion!</p>
+                    <a href="#" class="font-bold text-emerald-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+                <!-- Card 2 -->
+                <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-mug-hot text-amber-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Sugar-Free Office</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">3-in-1 coffee sachets contain up to 3 teaspoons of sugar. Learn how to transition to black coffee or sugar-free tea.</p>
+                    <a href="#" class="font-bold text-amber-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+                <!-- Card 3 -->
+                <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bed text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">The "Zzz" Prevention</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">Why you crash at 3 PM. Hint: It's the insulin spike from those 2 pieces of Karipap during the morning meeting.</p>
+                    <a href="#" class="font-bold text-blue-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Game Section -->
+    <section id="game" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl font-extrabold mb-6">Pantry Dash <br><span class="text-emerald-600">Catch the Health!</span></h2>
+                <p class="text-lg text-slate-600 mb-8">Quick! The pantry just got restocked. Use your mouse (or finger on mobile) to catch healthy snacks and avoid the junk.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-emerald-100/50 p-4 rounded-2xl border border-emerald-100">
+                        <span class="text-2xl">🍎 🥑 🥦 🥕 🍇 🥜 🍌</span>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-emerald-800">+10 Energy Points</span>
+                            <span class="text-xs text-emerald-600">Fruits, Veggies & Nuts</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-rose-100/50 p-4 rounded-2xl border border-rose-100">
+                        <span class="text-2xl">🍩 🥤🍔 🍕 🍩 🥤 🍟</span>
+                         <div class="flex flex-col">
+                            <span class="font-bold text-rose-800">-15 Energy Points</span>
+                            <span class="text-xs text-rose-600">Fast Food, Sugar & Processed Carbs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="game-container">
+                <div id="game-ui" class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-slate-900/90 text-white p-6 text-center">
+                    <div class="mb-4 text-4xl">🎮</div>
+                    <h3 class="text-3xl font-bold mb-2">Pantry Dash</h3>
+                    <p class="text-slate-400 mb-6 text-sm">Drag to move. Catch healthy food!</p>
+                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold text-lg hover:scale-105 transition shadow-lg shadow-emerald-500/20">Start Game</button>
+                </div>
+                <div class="absolute top-4 left-6 text-white font-bold text-xl z-10 bg-black/20 px-3 py-1 rounded-lg backdrop-blur-sm">Score: <span id="score">0</span></div>
+                <div id="player-paddle"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Snack Selector -->
+    <section id="snacks" class="py-24 bg-slate-900 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <span class="text-green-400 font-bold tracking-widest text-sm uppercase">Quick Fixes</span>
+                    <h2 class="text-4xl font-bold mt-4 mb-6">The Smart Desk-Snack Selector</h2>
+                    <p class="text-slate-400 mb-8">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry or vending machine.</p>
+                    
+                    <div class="flex flex-wrap gap-3 mb-10">
+                        <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition active-btn" id="btn-energy">Low Energy</button>
+                        <button onclick="showSnack('focus')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-focus">Distracted</button>
+                        <button onclick="showSnack('stress')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-stress">Stressed</button>
+                        <button onclick="showSnack('hunger')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-hunger">Hangry</button>
+                    </div>
+
+                    <div id="snack-energy" class="tab-content active p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">
+                        <h4 class="text-xl font-bold mb-2">The Energy Booster</h4>
+                        <p class="text-slate-400">Greek Yogurt with a handful of Berries. The protein-carb combo provides a steady release of glucose without the spike.</p>
+                    </div>
+
+                    <div id="snack-focus" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-blue-500">
+                        <h4 class="text-xl font-bold mb-2">The Focus Fuel</h4>
+                        <p class="text-slate-400">Walnuts or Almonds. Rich in Omega-3s and Vitamin E to protect brain cells and keep you sharp during long meetings.</p>
+                    </div>
+
+                    <div id="snack-stress" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-purple-500">
+                        <h4 class="text-xl font-bold mb-2">The Calm Crunch</h4>
+                        <p class="text-slate-600 text-slate-400">Dark Chocolate (70%+) or Herbal Tea. Magnesium in cocoa helps regulate cortisol levels during tight deadlines.</p>
+                    </div>
+
+                    <div id="snack-hunger" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-orange-500">
+                        <h4 class="text-xl font-bold mb-2">The Satiety Hero</h4>
+                        <p class="text-slate-600 text-slate-400">Hard-boiled Egg or Apple slices with Nut Butter. High fiber and protein to keep hunger at bay until dinner.</p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 bg-green-500 rounded-full flex items-center justify-center animate-pulse opacity-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                        <img id="snack-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400" alt="Healthy Snack" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full shadow-2xl relative z-10 border-8 border-slate-800">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Health Assessment Tools (BMI & BMR) -->
+    <section id="tools" class="py-24 bg-slate-100">
+            <div class="max-w-5xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-black text-slate-900 mb-2">Health Assessment</h2>
+                    <p class="text-slate-500 italic">Localized weight classification based on Table 2-1 guidelines.</p>
+                </div>
+
+                <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
+                    <!-- Tabs -->
+                    <div class="flex bg-slate-50 border-b border-slate-100">
+                        <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
+                            <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)
+                        </button>
+                        <button onclick="switchCalc('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
+                            <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator
+                        </button>
+                    </div>
+                    
+                    <div class="max-w-5xl mx-auto px-4">
+                        <!-- Inputs -->
+                        <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100">
+                            <div class="text-center mb-10">
+                                <h2 class="text-3xl font-bold mb-2">BMR & Energy Requirement Calculator</h2>
+                                <p class="text-slate-500">Validated calculations aligned with Malaysian clinical nutrition practices.</p>
+                            </div>
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        </div>
+                        <!-- Calculator Inputs -->
+                        <div class="lg:col-span-7 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
+                                <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                                    <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
+                                    <option value="harris">Revised Harris-Benedict</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Gender</label>
+                                <div class="flex gap-2">
+                                    <button onclick="setGender('male')" id="btn-male" class="flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700">Male</button>
+                                    <button onclick="setGender('female')" id="btn-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
+                                <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
+                                <input type="number" id="height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
+                                <input type="number" id="weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Physical Activity Level (PAL)</label>
+                            <select id="activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                                <option value="1.2">Basal Metabolic Rate (BMR only)</option>
+                                <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
+                                <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
+                                <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
+                                <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
+                                <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
+                            </select>
+                        </div>
+
+                        <!-- Results: BMI (left) & BMR (right) -->
+                        <div id="calc-results" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+                            <!-- BMI Result Area -->
+                            <div id="calc-bmi" class="tab-content-calc active">
+                                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                                    <div>
+                                        <h3 class="text-2xl font-bold mb-4">Your Result</h3>
+                                        <div class="flex items-baseline gap-3 mb-4">
+                                            <span id="bmi-val" class="text-7xl font-black text-green-600">24.2</span>
+                                            <span id="bmi-status" class="px-4 py-1 rounded-full bg-green-100 text-green-700 font-bold text-xs uppercase">Normal</span>
+                                        </div>
+                                        <div class="bmi-bar mb-6"></div>
+                                        <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
+                                        <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                        <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
+                                        <div class="space-y-2 text-[11px] font-bold">
+                                            <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
+                                                <span>Underweight (&lt; 18.5)</span>
+                                                <span>Low Risk*</span>
+                                            </div>
+                                            <div class="flex justify-between p-2 rounded bg-green-50 text-green-700 border border-green-200">
+                                                <span>Normal (18.5 – 22.9)</span>
+                                                <span>Optimal</span>
+                                            </div>
+                                            <div class="flex justify-between p-2 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                                <span>Pre-obese (23.0 – 27.4)</span>
+                                                <span>Increased</span>
+                                            </div>
+                                            <div class="flex justify-between p-2 rounded bg-orange-50 text-orange-700 border border-orange-100">
+                                                <span>Obese I (27.5 – 32.4)</span>
+                                                <span>High</span>
+                                            </div>
+                                            <div class="flex justify-between p-2 rounded bg-red-50 text-red-700 border border-red-100">
+                                                <span>Obese II (32.5 – 37.4)</span>
+                                                <span>Very High</span>
+                                            </div>
+                                            <div class="flex justify-between p-2 rounded bg-red-900 text-white">
+                                                <span>Obese III (&ge; 37.5)</span>
+                                                <span>Extremely High</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management Level 1+.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BMR Results Area -->
+                            <div id="calc-bmr" class="tab-content-calc">
+                                <div class="bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center h-full">
+                                    <div class="text-center mb-8">
+                                        <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
+                                        <div class="text-6xl font-black text-white"><span id="tdee-val">2034</span></div>
+                                        <p class="text-slate-400 mt-2 text-sm">kcal per day</p>
+                                    </div>
+                                    
+                                    <div class="space-y-4 pt-6 border-t border-slate-800">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-slate-400 text-sm">Basal Metabolism (BMR)</span>
+                                            <span class="font-bold text-white" id="bmr-result">1695 kcal</span>
+                                        </div>
+                                        <div class="bg-slate-800/50 p-4 rounded-xl space-y-3 mt-4">
+                                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Daily Intake Targets</p>
+                                            <div class="flex justify-between items-center">
+                                                <div class="flex flex-col">
+                                                    <span class="text-xs font-semibold text-orange-400 uppercase">Weight Reduction</span>
+                                                    <span class="text-[10px] text-slate-400">Consuming 500kcal deficit</span>
+                                                </div>
+                                                <span class="font-bold text-orange-400 text-lg" id="loss-result">1534 kcal</span>
+                                            </div>
+                                            <div class="flex justify-between items-center pt-2 border-t border-slate-700/50">
+                                                <div class="flex flex-col">
+                                                    <span class="text-xs font-semibold text-blue-400 uppercase">Maintenance/Active</span>
+                                                    <span class="text-[10px] text-slate-400">For daily weight stability</span>
+                                                </div>
+                                                <span class="font-bold text-blue-400 text-lg" id="maintain-result">2034 kcal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                        <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Clinical Context (Malaysia)</p>
+                                        <p id="equation-info" class="text-xs text-slate-300">Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> 
+                </div>
+            </div>
+        </div>
+    </section>
+                    
+    <!-- Game BGM Audio -->
+    <audio id="game-bgm" loop src="IX.mp3" preload="auto"></audio>
+    <!-- When browsers block autoplay, show this button so users can explicitly enable sound -->
+    <div id="audio-unlock" class="hidden fixed bottom-6 right-6 z-50">
+        <button id="audio-unlock-btn" onclick="unlockAudio()" class="bg-amber-500 hover:bg-amber-400 text-white px-4 py-2 rounded-full shadow-lg">Enable Sound</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="bg-slate-900 p-2 rounded-lg">
+                    <i class="fas fa-apple-whole text-white"></i>
+                </div>
+                <span class="font-bold text-lg text-slate-900">WorkBites</span>
+            </div>
+            <p class="text-slate-500 text-sm max-w-md mx-auto mb-8">
+                Empowering teams to make smarter dietary choices for a more vibrant, energetic, and productive workplace.
+            </p>
+            <div class="flex justify-center gap-6 text-slate-400 text-xl mb-10">
+                <a href="#" class="hover:text-green-600 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/amaryllis.diary/" class="hover:text-green-600 transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-green-600 transition"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="text-slate-400 text-xs">© 2025 Nutrition Educational Aids. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- CALCULATORS ---
+        function switchCalc(type) {
+            const results = document.getElementById('calc-results');
+            const target = document.getElementById('calc-' + type);
+
+            // If we're already in single-mode and the clicked tab is the currently active one => toggle back to dual view
+            if (results.classList.contains('single') && target.classList.contains('active')) {
+                results.classList.remove('single');
+                document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
+            } else {
+                // Enter single-mode and show only the selected panel
+                results.classList.add('single');
+                document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
+                target.classList.add('active');
+            }
+
+            // Update tab styles
+            document.getElementById('tab-bmi').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmi' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400'}`;
+            document.getElementById('tab-bmr').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmr' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400'}`;
+        }
+
+        function updateGender(g) {
+            currentGender = g;
+            document.getElementById('g-male').className = g === 'male' ? 'flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700' : 'flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400';
+            document.getElementById('g-female').className = g === 'female' ? 'flex-1 rounded-2xl font-bold border-2 border-green-500 bg-green-50 text-green-700' : 'flex-1 rounded-2xl font-bold border-2 border-slate-100 bg-slate-50 text-slate-400';
+            syncAndCalculate();
+        }
+
+        function syncAndCalculate() {
+            const w = parseFloat(document.getElementById('global-weight').value) || 0;
+            const h = parseFloat(document.getElementById('global-height').value) || 0;
+            const a = parseFloat(document.getElementById('global-age').value) || 0;
+            const pal = parseFloat(document.getElementById('pal-select').value);
+
+            if (h > 0) {
+                const bmi = w / ((h/100) * (h/100));
+                document.getElementById('bmi-val').innerText = bmi.toFixed(1);
+                
+                // --- STRICT TABLE 2-1 CLASSIFICATION ---
+                let s = "", c = "", bg = "", r = "", f = "";
+                
+                if (bmi < 18.5) { 
+                    s = "Underweight"; 
+                    c = "text-blue-600"; 
+                    bg = "bg-blue-100"; 
+                    r = "Low, but with increased risk of other clinical problems";
+                    f = "Consider a calorie-dense but balanced diet to achieve a healthier weight."; 
+                }
+                else if (bmi < 23.0) { 
+                    s = "Normal"; 
+                    c = "text-green-600"; 
+                    bg = "bg-green-100"; 
+                    r = "Optimal";
+                    f = "Excellent! Maintain your current lifestyle and balanced plate."; 
+                }
+                else if (bmi < 27.5) { 
+                    s = "Pre-obese (Overweight)"; 
+                    c = "text-yellow-600"; 
+                    bg = "bg-yellow-100"; 
+                    r = "Increased";
+                    f = "Monitor your portion sizes and increase daily physical activity."; 
+                }
+                else if (bmi < 32.5) { 
+                    s = "Obese I"; 
+                    c = "text-orange-600"; 
+                    bg = "bg-orange-100"; 
+                    r = "High";
+                    f = "Consider small dietary adjustments and consult a nutritionist."; 
+                }
+                else if (bmi < 37.5) { 
+                    s = "Obese II"; 
+                    c = "text-red-600"; 
+                    bg = "bg-red-100"; 
+                    r = "Very High";
+                    f = "Focus on weight management to reduce risk of chronic diseases."; 
+                }
+                else { 
+                    s = "Obese III"; 
+                    c = "text-red-900"; 
+                    bg = "bg-red-200"; 
+                    r = "Extremely High";
+                    f = "Seek medical advice for a comprehensive weight management plan."; 
+                }
+                
+                const badge = document.getElementById('bmi-status');
+                badge.innerText = s; 
+                badge.className = `px-4 py-1 rounded-full ${bg} ${c} font-bold text-xs uppercase`;
+                document.getElementById('bmi-val').className = `text-7xl font-black ${c}`;
+                document.getElementById('risk-badge').innerText = `Comorbidity Risk: ${r}`;
+                document.getElementById('bmi-feedback').innerText = f;
+        }
+            
+        let currentGender = 'male';
+
+        function setGender(gender) {
+            currentGender = gender;
+            const maleBtn = document.getElementById('btn-male');
+            const femaleBtn = document.getElementById('btn-female');
+            
+            if (gender === 'male') {
+                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
+                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
+            } else {
+                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
+                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
+            }
+            calculateBMR();
+        }
+
+        function calculateBMR() {
+            const age = parseFloat(document.getElementById('age').value) || 0;
+            const height = parseFloat(document.getElementById('height').value) || 0;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const formula = document.getElementById('formula').value;
+            const activity = parseFloat(document.getElementById('activity').value);
+            
+            let bmr = 0;
+            
+            if (formula === 'mifflin') {
+                if (currentGender === 'male') {
+                    bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+                } else {
+                    bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+                }
+                document.getElementById('equation-info').innerText = "Mifflin-St Jeor: Currently recommended by the Malaysian Ministry of Health for accurate energy estimation in diverse adult populations, including overweight/obese patients.";
+            } else {
+                if (currentGender === 'male') {
+                    bmr = (13.397 * weight) + (4.799 * height) - (5.677 * age) + 88.362;
+                } else {
+                    bmr = (9.247 * weight) + (3.098 * height) - (4.330 * age) + 447.593;
+                }
+                document.getElementById('equation-info').innerText = "Harris-Benedict: Historical standard; often used for athletic individuals but may overestimate needs in sedentary office populations.";
+            }
+
+            if (bmr < 0) bmr = 0;
+            const tdee = bmr * activity;
+            
+            document.getElementById('bmr-result').innerText = Math.round(bmr) + " kcal";
+            document.getElementById('tdee-val').innerText = Math.round(tdee);
+            document.getElementById('loss-result').innerText = Math.round(tdee - 500) + " kcal";
+            document.getElementById('maintain-result').innerText = Math.round(tdee) + " kcal";
+        }
+
+        function showSnack(type) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected
+            document.getElementById('snack-' + type).classList.add('active');
+
+            // Activate specific
+            document.getElementById('content-' + tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('active-tab');
+        }
+
+        // Game Logic
+        const container = document.getElementById('game-container');
+        const paddle = document.getElementById('player-paddle');
+        const scoreDisplay = document.getElementById('score');
+        const ui = document.getElementById('game-ui');
+        
+        let score = 0;
+        let gameActive = false;
+        let paddlePos = 185;
+        const bgm = document.getElementById('game-bgm'); // Get Audio Element
+        
+        const items = [
+            '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋', // Healthy
+            '🍩', '🥤', '🥟', '🍬', '🍔', '🍟', '🍕', '🌭', '🍪', '🍰', '🍦', '🍫', '🧁', '🥨', '🥞', '🧇', '🥐', '🍮', '🍭' // Unhealthy
+        ];
+        const goodItems = [ '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋'];
+        
+        // Mouse & Touch Handler
+        function updatePaddle(clientX) {
+             if (!gameActive) return;
+            const rect = container.getBoundingClientRect();
+            let x = clientX - rect.left - 40; // Center paddle
+            
+            // Boundaries
+            if (x < 0) x = 0;
+            if (x > rect.width - 80) x = rect.width - 80;
+            
+            paddlePos = x;
+            paddle.style.left = x + 'px';
+        }
+
+        container.addEventListener('mousemove', (e) => updatePaddle(e.clientX));
+        container.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Stop scrolling
+            updatePaddle(e.touches[0].clientX);
+        });
+
+        function startGame() {
+            gameActive = true;
+            score = 0;
+            scoreDisplay.innerText = score;
+            ui.style.display = 'none';
+            
+            // Play Music
+            bgm.volume = 0.4; // Set volume to 40%
+            bgm.currentTime = 0;
+            attemptPlayBgm();
+
+            // Spawn items loop
+            const spawnInterval = setInterval(() => {
+                if (!gameActive) {
+                    clearInterval(spawnInterval);
+                    return;
+                }
+                createItem();
+            }, 800);
+
+            // Game Timer (30 seconds)
+            setTimeout(() => {
+                gameActive = false;
+                
+                // Stop Music
+                bgm.pause();
+                bgm.currentTime = 0;
+
+                ui.innerHTML = `
+                    <h3 class="text-3xl font-bold mb-2">Time's Up!</h3>
+                    <p class="mb-4 text-xl">Energy Level: <span class="${score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${score}</span></p>
+                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold shadow-lg">Play Again</button>
+                `;
+                ui.style.display = 'flex';
+                
+                // Cleanup existing items
+                document.querySelectorAll('.item-drop').forEach(el => el.remove());
+            }, 30000);
+        }
+
+        // Try to play BGM, and show unlock button if play() is rejected
+        function attemptPlayBgm() {
+            const p = bgm.play();
+            if (p !== undefined) {
+                p.then(() => {
+                    // success — hide unlock button if present
+                    const unlock = document.getElementById('audio-unlock');
+                    if (unlock) unlock.classList.add('hidden');
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                    const unlock = document.getElementById('audio-unlock');
+                    if (unlock) unlock.classList.remove('hidden');
+                });
+            }
+        }
+
+        function unlockAudio() {
+            // This is called by a user gesture (button click) to explicitly enable audio playback
+            try {
+                bgm.muted = false;
+                bgm.currentTime = 0;
+                bgm.play().then(() => {
+                    const unlock = document.getElementById('audio-unlock');
+                    if (unlock) unlock.classList.add('hidden');
+                }).catch(e => {
+                    console.log('Audio unlock attempt failed:', e);
+                });
+            } catch(e) {
+                console.log('Unlock audio error', e);
+            }
+        }
+
+        function createItem() {
+            const el = document.createElement('div');
+            const item = items[Math.floor(Math.random() * items.length)];
+            el.className = 'item-drop';
+            el.innerText = item;
+            
+            // Random X position within container width
+            const maxLeft = container.clientWidth - 40;
+            el.style.left = Math.random() * maxLeft + 'px';
+            el.style.top = '-50px';
+            container.appendChild(el);
+
+            let top = -50;
+            
+            // Fall animation loop for this specific item
+            const fall = setInterval(() => {
+                if (!gameActive) {
+                    clearInterval(fall);
+                    el.remove();
+                    return;
+                }
+                
+                top += 4; // Falling speed
+                el.style.top = top + 'px';
+
+                // Collision Detection Logic
+                // Paddle is at bottom: 20px from bottom. Container height 450.
+                // Paddle Y zone approx: 418px to 430px
+                if (top > 400 && top < 430) {
+                    const itemX = parseFloat(el.style.left);
+                    // Hitbox calculation
+                    if (itemX + 20 > paddlePos && itemX < paddlePos + 80) {
+                        if (goodItems.includes(item)) {
+                            score += 10;
+                            el.style.textShadow = "0 0 10px #10b981";
+                        } else {
+                            score -= 15;
+                            el.style.textShadow = "0 0 10px #f43f5e";
+                        }
+                        scoreDisplay.innerText = score;
+                        
+                        // Visual feedback (pop effect)
+                        el.style.transform = "scale(1.5)";
+                        el.style.opacity = "0";
+                        
+                        clearInterval(fall);
+                        setTimeout(() => el.remove(), 100);
+                        return;
+                    }
+                }
+
+                // Missed bottom
+                if (top > 450) {
+                    clearInterval(fall);
+                    el.remove();
+                }
+            }, 16);
+        }
+
+        function showSnack(type) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected
+            document.getElementById('snack-' + type).classList.add('active');
+        
+            // Update buttons
+            const buttons = ['energy', 'focus', 'stress', 'hunger'];
+            buttons.forEach(btn => {
+                const el = document.getElementById('btn-' + btn);
+                if(btn === type) {
+                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
+                } else {
+                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
+                }
+            });
+
+            // Update Image
+            const img = document.getElementById('snack-img');
+            const images = {
+                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+            };
+            img.src = images[type];
+        }
+
+        // Calculator Logic
+        const bRange = document.getElementById('breakfast-range');
+        const wRange = document.getElementById('water-range');
+        const result = document.getElementById('calc-result');
+
+        function updateCalc() {
+            const bValue = parseInt(bRange.value);
+            const wValue = parseInt(wRange.value);
+            
+            // Dummy logic for productivity
+            let score = 5 + (wValue * 2) - (bValue * 1.5);
+            if (score < 0) score = 2;
+            result.innerText = Math.round(score);
+        }
+
+        bRange.addEventListener('input', updateCalc);
+        wRange.addEventListener('input', updateCalc);
+    }
+        // Init UI
+        syncAndCalculate();
+        calculateBMR();
+        showSnack('energy');     
+    </script>
+</body>
+</html>
 
