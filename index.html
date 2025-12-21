@@ -42,6 +42,15 @@
             display: block;
             animation: fadeIn 0.5s ease;
         }
+
+        .tab-content {
+            display: none;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         .bmi-bar {
            height: 12px;
@@ -854,6 +863,7 @@
     </script>
 </body>
 </html>
+
 
 
 
