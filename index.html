@@ -40,7 +40,25 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }   
         }
-        
+        /* hide/show helper */
+        .hidden { display: none !important;}
+        .section-fade {
+            transition: opacity 220ms ease, transform 220ms ease;
+            opacity: 1;
+            transform: translateY(0);
+        } 
+        /* smooth fade for sections */
+        .section-fade.hidden {
+            opacity: 0;
+            transform: translateY(6px);
+            pointer-events: none;
+        }
+        /* active button style */
+        .tab-btn.active {
+            background: #0f172a;
+            color: #a7f3d0;
+            border-color: #10b981;
+        }
         .bmi-content {
              display: flex;
              gap: 2rem;  
@@ -368,35 +386,262 @@
                 <div class="md:w-1/2">
                     <span class="text-green-400 font-bold tracking-widest text-sm uppercase">Quick Fixes</span>
                     <h2 class="text-4xl font-bold mt-4 mb-6">The Smart Desk-Snack Selector</h2>
-                    <p class="text-slate-400 mb-8">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry or vending machine.</p>
+                    <p class="text-slate-400 mb-8">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry, vending machine or nearby grocer.</p>
                     
                     <div class="flex flex-wrap gap-3 mb-10">
                         <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition active-btn" id="btn-energy">Low Energy</button>
                         <button onclick="showSnack('focus')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-focus">Distracted</button>
                         <button onclick="showSnack('stress')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-stress">Stressed</button>
-                        <button onclick="showSnack('hunger')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-hunger">Hangry</button>
+                        <button onclick="showSnack('hunger')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-hunger">Hungry</button>
                     </div>
 
                     <div id="snack-energy" class="tab-content active p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">
-                        <h4 class="text-xl font-bold mb-2">The Energy Booster</h4>
-                        <p class="text-slate-400">Greek Yogurt with a handful of Berries. The protein-carb combo provides a steady release of glucose without the spike.</p>
+                    <h4 class="text-2xl font-bold mb-2">p.s choose complex carb</h4>
+                    <h4 class="text-2xl font-bold mb-2">LIMIT</h4>
+                        <h5 class=="text-xl font-bold mb-4">1- Cookies, cracker, sandwich with falvoured cream (OREO, 1 round)</h5>
+                        <h6 class="text-l mb-2">Energy</h6>
+                        <p class="text-slate-400">45 kcal</p>
+                        <h6 class="text-l mb-2">Carbohydrate</h6>
+                        <p class="text-slate-400">6.74 g</p>
+                        <h6 class="text-l mb-2">Protein</h6>
+                        <p class="text-slate-400">0.56 g</p>
+                        <h6 class="text-l mb-2">Fat</h6>
+                        <p class="text-slate-400">1.78 g</p>
+                
+                        <h5 class=="text-xl font-bold mb-2">2- High sugary kuih (KUIH LAPIS, 1 piece)</h5>
+                        <h6 class="text-l mb-2">Energy</h6>
+                        <p class="text-slate-400">132 kcal</p>
+                        <h6 class="text-l mb-2">Carbohydrate</h6>
+                        <p class="text-slate-400">28.8 g</p>
+                        <h6 class="text-l mb-2">Protein</h6>
+                        <p class="text-slate-400">1.91 g</p>
+                        <h6 class="text-l mb-2">Fat</h6>
+                        <p class="text-slate-400">1.04 g</p>
                     </div>
+                    <div id="snack-energy" class="tab-content active p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">
+                    <h4 class="text-2xl font-bold mb-2">CHOOSE INSTEAD</h4>
+                        <h5 class=="text-xl font-bold mb-2">1-Fruits (BANANA, 1 small)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">60 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">15 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">0 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">0 g</p>
 
-                    <div id="snack-focus" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-blue-500">
-                        <h4 class="text-xl font-bold mb-2">The Focus Fuel</h4>
-                        <p class="text-slate-400">Walnuts or Almonds. Rich in Omega-3s and Vitamin E to protect brain cells and keep you sharp during long meetings.</p>
+                        <h5 class=="text-xl font-bold mb-2">2-Oat Biscuits (1 round)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">67 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">8.07 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">0.96 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">3.39 g</p>
                     </div>
+                    
+                    </div> <div class="md:w-1/3 flex justify-center md:sticky md:top-10">
+               <div class="relative w-64 h-64 md:w-80 md:h-80 bg-stone-700 rounded-full items-center justify-center overflow-hidden">
+            <img src="almond.jpeg" alt="almond" class="w-full h-full object-cover">
+               </div> 
+                    <div id="snack-focus" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-red-500">
+                      <h4 class="text-2xl font-bold mb-2">p.s. choose high protein snack</h4>
+                      <h4 class="text-2xl font-bold mb-2">LIMIT</h4>
+                        
+                        <h5 class=="text-xl font-bold mb-2">1-Sweet Bun (1 piece)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">100 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">16.7 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">2.73 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">2.47 g</p>
 
-                    <div id="snack-stress" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-purple-500">
-                        <h4 class="text-xl font-bold mb-2">The Calm Crunch</h4>
-                        <p class="text-slate-400">Dark Chocolate (70%+) or Herbal Tea. Magnesium in cocoa helps regulate cortisol levels during tight deadlines.</p>
-                    </div>
+                        <h5 class=="text-xl font-bold mb-2">2-Curry Puff (1 piece)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">128 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">17.28 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">1.88 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">5.64 g</p>
+                     </div>
+                        
+                     <div id="snack-focus" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">
+                      <h4 class="text-2xl font-bold mb-2">p.s. choose high protein snack</h4>
+                      <h4 class="text-2xl font-bold mb-2">CHOOSE INSTEAD</h4>
+                        
+                        <h5 class=="text-xl font-bold mb-2">1-Yoghurt (1/2 cup, low-fat plain)</h5>
+                              <h6 class="text-l mb-2">Energy</h6>
+                              <p class="text-slate-400">118 kcal</p>
+                              <h6 class="text-l mb-2">Carbohydrate</h6>
+                              <p class="text-slate-400">17.3 g</p>
+                              <h6 class="text-l mb-2">Protein</h6>
+                              <p class="text-slate-400">6.5 g</p>
+                              <h6 class="text-l mb-2">Fat</h6>
+                              <p class="text-slate-400">2.5 g</p>
 
-                    <div id="snack-hunger" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-orange-500">
-                        <h4 class="text-xl font-bold mb-2">The Satiety Hero</h4>
-                        <p class="text-slate-400">Hard-boiled Egg or Apple slices with Nut Butter. High fiber and protein to keep hunger at bay until dinner.</p>
+                        <h5 class=="text-xl font-bold mb-2">2-Nuts (Cashew, 100g)</h5>
+                              <h6 class="text-l mb-2">Energy</h6>
+                              <p class="text-slate-400">579 kcal</p>
+                              <h6 class="text-l mb-2">Carbohydrate</h6>
+                              <p class="text-slate-400">18.5 g</p>
+                              <h6 class="text-l mb-2">Protein</h6>
+                              <p class="text-slate-400">21.2 g</p>
+                              <h6 class="text-l mb-2">Fat</h6>
+                              <p class="text-slate-400">46.7 g</p>
+                     </div>
+                        
+                      <div id="snack-stress" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-red-500">
+                      <h4 class="text-2xl font-bold mb-2">p.s. choose snack low in sodium</h4>
+                      <h4 class="text-2xl font-bold mb-2">LIMIT</h4>
+                        
+                        <h5 class=="text-xl font-bold mb-2">1-Chips/ Jajan(Potato Chips, 1 medium packet)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">264 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">27.05 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">2.6 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">16.1 g</p>
+                          <h6 class="text-l mb-2">Sodium</h6>
+                          <p class="text-slate-400">356 mg</p>
+
+                        <h5 class=="text-xl font-bold mb-2">2-Instant noodle (Maggi, 1 rectangular piece)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">360 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">54.57 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">8.33 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">12.07 g</p>
+                          <h6 class="text-l mb-2">Sodium</h6>
+                          <p class="text-slate-400">88 mg</p>
+
+                        <h5 class=="text-xl font-bold mb-2">3-Fries(Thick, 10 pieces)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">67 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">7.61 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">0.79 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">3.74 g</p>
+                          <h6 class="text-l mb-2">Sodium</h6>
+                          <p class="text-slate-400">13 mg</p>
                     </div>
-                </div>
+                        
+                        <div id="snack-stress" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">
+                      <h4 class="text-2xl font-bold mb-2">p.s. choose snack low in sodium</h4>
+                      <h4 class="text-2xl font-bold mb-2">CHOOSE INSTEAD</h4>
+                        
+                        <h5 class=="text-xl font-bold mb-2">1-Fruit (red apple, 1 medium)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">63 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">14.7 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">0.22 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">0.45 g</p>
+                          <h6 class="text-l mb-2">Sodium</h6>
+                          <p class="text-slate-400">3 mg</p>
+
+                        <h5 class=="text-xl font-bold mb-2">2-Roasted nuts (almond, 10 nut)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">81 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">1.14 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">3.07 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">7.12 g</p>
+                          <h6 class="text-l mb-2">Sodium</h6>
+                          <p class="text-slate-400">2 mg</p>
+
+                        <h5 class=="text-xl font-bold mb-2">3-Steamed Sweet potato (1 whole)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">106 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">24.1 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">1.54 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">0.39 g</p>
+                          <h6 class="text-l mb-2">Sodium</h6>
+                          <p class="text-slate-400">28 mg</p>
+                    </div>
+                        
+                    <div id="snack-hunger" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-red-500">
+                      <h4 class="text-2xl font-bold mb-2">p.s. choose snack high in sodium</h4>
+                      <h4 class="text-2xl font-bold mb-2">LIMIT</h4>
+                        
+                        <h5 class=="text-xl font-bold mb-2">1-Burger (Cheeseburger, 1 whole)
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">341 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">28.64 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">24.55 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">14.26 g</p>
+                          <h6 class="text-l mb-2">Fibre</h6>
+                          <p class="text-slate-400">0.2 g</p>
+
+                        <h5 class=="text-xl font-bold mb-2">2-Pizza(Paperoni pizza, 1 slice)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">155 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">8.5 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">9.45 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">9.24 g</p>
+                          <h6 class="text-l mb-2">Fibre</h6>
+                          <p class="text-slate-400">0.2 g</p>
+                
+                  </div>
+
+                  <div id="snack-hunger" class="tab-content active p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">    
+                     <h4 class="text-2xl font-bold mb-2">CHOOSE INSTEAD</h4>
+                      
+                      <h5 class=="text-xl font-bold mb-2">1-Sandwich (Egg sandwich, 1 whole)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">481 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">19.69 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">38.2 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">27.77 g</p>
+                          <h6 class="text-l mb-2">Fibre</h6>
+                          <p class="text-slate-400">2.5 g</p>
+                      
+                      <h5 class=="text-xl font-bold mb-2">2-Fruit(Boiled corn, 1/2 cup)</h5>
+                          <h6 class="text-l mb-2">Energy</h6>
+                          <p class="text-slate-400">60 kcal</p>
+                          <h6 class="text-l mb-2">Carbohydrate</h6>
+                          <p class="text-slate-400">15 g</p>
+                          <h6 class="text-l mb-2">Protein</h6>
+                          <p class="text-slate-400">0 g</p>
+                          <h6 class="text-l mb-2">Fat</h6>
+                          <p class="text-slate-400">0 g</p>
+                          <h6 class="text-l mb-2">Fibre</h6>
+                          <p class="text-slate-400">2 g</p>
+                    </div>
+                        
+                    <div class="md:w-1/2 flex justify-center">
+                        <div class="relative">
+                            <div class="relative w-full h-80 w-64 h-64 md:w-80 md:h-80 bg-brown-500 rounded-full opacity-100 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                <img src="almond.jpeg" alt="almond" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 object-cover rounded-full">
+                            </div>
+                        </div>
+                    </div>
                 <div class="md:w-1/2 flex justify-center">
                     <div class="relative">
                         <div class="w-64 h-64 md:w-80 md:h-80 bg-green-500 rounded-full flex items-center justify-center animate-pulse opacity-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
@@ -414,13 +659,12 @@
         <!-- Header Card -->
         <div class="max-w-5xl mx-auto px-4">
                 <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-6 text-center">
-                    <h2 class="text-3xl font-bold mb-2">BMR & Energy Requirement Calculator</h2>
+                    <h2 class="text-3xl font-bold mb-2">BMI & Energy Requirement Calculator</h2>
                     <p class="text-slate-500">Validated calculations aligned with Malaysian clinical nutrition practices.</p>
                 </div>
                 <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
-                    
-                    <!-- Tab Buttons -->
-                    <div class="flex bg-slate-50 border-b border-slate-100">
+    
+                       <!-- Tab Buttons -->
                         <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white transition-all">
                             <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)
                         </button>
@@ -504,7 +748,7 @@
                                                 <span>Extremely High</span>
                                             </div>
                                         </div>
-                                        <p id="bmi-suggestion" class="text-slate-500 text-sm leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management [...]
+                                        <p id="bmi-suggestion" class="text-slate-500 text-sm leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management of Obesity
                                     </div>
                                 </div>       
                             </div>
@@ -807,6 +1051,7 @@
     </script>
 </body>
 </html>
+
 
 
 
