@@ -40,25 +40,7 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }   
         }
-        /* hide/show helper */
-        .hidden { display: none !important;}
-        .section-fade {
-            transition: opacity 220ms ease, transform 220ms ease;
-            opacity: 1;
-            transform: translateY(0);
-        } 
-        /* smooth fade for sections */
-        .section-fade.hidden {
-            opacity: 0;
-            transform: translateY(6px);
-            pointer-events: none;
-        }
-        /* active button style */
-        .tab-btn.active {
-            background: #0f172a;
-            color: #a7f3d0;
-            border-color: #10b981;
-        }
+        
         .bmi-content {
              display: flex;
              gap: 2rem;  
@@ -184,71 +166,6 @@
         }
         #water-result { color: #007bff; margin: 5px 0; }
         .small-text { font-size: 0.9em; color: #666; }
-        /* Layout */
-        .snack-grid {
-          display: grid;
-          grid-template-columns: 1fr 360px;
-          gap: 28px;
-          align-items: start;
-        }
-        
-        /* Panels column: two-column panels on wide screens */
-        .snack-panels {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-        }
-        
-        /* Panel base */
-        .panel {
-          background: #0f172a;
-          padding: 18px;
-          border-radius: 12px;
-          color: #fff;
-          border-left: 4px solid #ef4444;
-        }
-        .panel.choose { border-left-color: #10b981; }
-        
-        /* Titles and small text */
-        .panel-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 8px; }
-        .item-title { font-weight: 600; margin-bottom: 6px; }
-        .small-text { color: #94a3b8; font-size: 0.9rem; }
-        
-        /* Visual */
-        .snack-visual { display:flex; align-items:center; justify-content:center; }
-        .visual-img {
-          width: 100%;
-          max-width: 360px;
-          height: 360px;
-          object-fit: cover;
-          border-radius: 9999px;
-          box-shadow: 0 12px 30px rgba(2,6,23,0.6);
-        }
-        
-        /* Buttons */
-        .tab-btn {
-          padding: 10px 18px;
-          border-radius: 9999px;
-          border: 1px solid rgba(148,163,184,0.18);
-          background: transparent;
-          color: #e6eef8;
-          cursor: pointer;
-        }
-        .tab-btn.active {
-          background: #0f172a;
-          color: #a7f3d0;
-          border-color: #10b981;
-        }
-        
-        /* Hidden helper */
-        .hidden { display: none !important; }
-        
-        /* Responsive */
-        @media (max-width: 980px) {
-          .snack-grid { grid-template-columns: 1fr; }
-          .snack-panels { grid-template-columns: 1fr; }
-          .visual-img { width: 220px; height: 220px; }
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -369,8 +286,7 @@
                     <h3 class="text-xl font-bold mb-3">Caffeine Timing Map</h3>
                     <p class="text-slate-600 mb-6 text-sm leading-relaxed">Stop drinking coffee at the wrong time. Use our guide to align caffeine intake with your natural cortisol rhythms for max ene[...]
                     <button class="text-orange-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
-                        <a href="#" onclick="window.location.href='https://www.canva.com/design/DAG8Ka4g4WQ/bGlPOO3VB5raYxkBbDc_Jw/edit?utm_content=DAG8Ka4g4WQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'>View Infographic <i class="fas fa-image"></i>
-                        </a>
+                        View Infographic <i class="fas fa-image"></i>
                     </button>
                 </div>
             </div>
@@ -383,9 +299,9 @@
                     <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
                         <i class="fas fa-utensils text-emerald-600 text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Common Meals Among Workers</h3>
+                    <h3 class="text-xl font-bold mb-3">Nasi Campur Strategy</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6">The "Bungkus" Rule: Fill 50% of your container with cabbage/ulam before adding the rice. It forces a smaller rice portion!</p[...]
-                    <a href="#" onclick="window.location.href='https://www.canva.com/design/DAG8KUb8PGs/GFQtvmqRNMCKwU4dT_tiug/view?utm_content=DAG8KUb8PGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hae924d9a71' class="font-bold text-emerald-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                    <a href="#" class="font-bold text-emerald-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
                 </div>
                 <!-- Card 2 -->
                 <div class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 transition-all cursor-pointer group">
@@ -401,9 +317,9 @@
                     <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
                         <i class="fas fa-bed text-blue-600 text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Food During Meeting</h3>
+                    <h3 class="text-xl font-bold mb-3">The "Zzz" Prevention</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6">Why you crash at 3 PM. Hint: It's the insulin spike from those 2 pieces of Karipap during the morning meeting.</p>
-                    <a href="#" onclick="window.location.href='https://www.canva.com/design/DAG8LwDm6UQ/MnwX5hDaWerVPliMnT7RSQ/view?utm_content=DAG8LwDm6UQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hce52e787f6' class="font-bold text-blue-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
+                    <a href="#" class="font-bold text-blue-600 inline-flex items-center gap-2 group-hover:gap-3 transition-all">View Guide <i class="fas fa-chevron-right text-xs"></i></a>
                 </div>
             </div>
         </div>
@@ -445,138 +361,52 @@
         </div>
     </section>
 
-    <!-- Smart Desk-Snack Selector -->
-    <section id="snacks" class="snacks-section py-24 bg-slate-900 text-white overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="header mb-8">
-          <span class="text-green-400 font-bold tracking-widest text-sm uppercase">Quick Fixes</span>
-          <h2 class="text-4xl font-bold mt-4 mb-2">The Smart Desk-Snack Selector</h2>
-          <p class="text-slate-400">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry, vending machine or nearby grocer.</p>
+    <!-- Interactive Snack Selector -->
+    <section id="snacks" class="py-24 bg-slate-900 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <span class="text-green-400 font-bold tracking-widest text-sm uppercase">Quick Fixes</span>
+                    <h2 class="text-4xl font-bold mt-4 mb-6">The Smart Desk-Snack Selector</h2>
+                    <p class="text-slate-400 mb-8">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry or vending machine.</p>
+                    
+                    <div class="flex flex-wrap gap-3 mb-10">
+                        <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition active-btn" id="btn-energy">Low Energy</button>
+                        <button onclick="showSnack('focus')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-focus">Distracted</button>
+                        <button onclick="showSnack('stress')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-stress">Stressed</button>
+                        <button onclick="showSnack('hunger')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-hunger">Hangry</button>
+                    </div>
+
+                    <div id="snack-energy" class="tab-content active p-6 bg-slate-800 rounded-2xl border-l-4 border-green-500">
+                        <h4 class="text-xl font-bold mb-2">The Energy Booster</h4>
+                        <p class="text-slate-400">Greek Yogurt with a handful of Berries. The protein-carb combo provides a steady release of glucose without the spike.</p>
+                    </div>
+
+                    <div id="snack-focus" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-blue-500">
+                        <h4 class="text-xl font-bold mb-2">The Focus Fuel</h4>
+                        <p class="text-slate-400">Walnuts or Almonds. Rich in Omega-3s and Vitamin E to protect brain cells and keep you sharp during long meetings.</p>
+                    </div>
+
+                    <div id="snack-stress" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-purple-500">
+                        <h4 class="text-xl font-bold mb-2">The Calm Crunch</h4>
+                        <p class="text-slate-400">Dark Chocolate (70%+) or Herbal Tea. Magnesium in cocoa helps regulate cortisol levels during tight deadlines.</p>
+                    </div>
+
+                    <div id="snack-hunger" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-orange-500">
+                        <h4 class="text-xl font-bold mb-2">The Satiety Hero</h4>
+                        <p class="text-slate-400">Hard-boiled Egg or Apple slices with Nut Butter. High fiber and protein to keep hunger at bay until dinner.</p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 bg-green-500 rounded-full flex items-center justify-center animate-pulse opacity-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                        <img id="snack-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400" alt="Healthy Snack" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full shadow-2xl relative z-10 border-8 border-slate-800">
+                    </div>
+                </div>
+            </div>
         </div>
-    
-        <div class="controls mb-8">
-          <div class="flex flex-wrap gap-3">
-            <button id="btn-energy" class="tab-btn" onclick="showSnack('energy')">Low Energy</button>
-            <button id="btn-focus" class="tab-btn" onclick="showSnack('focus')">Distracted</button>
-            <button id="btn-stress" class="tab-btn" onclick="showSnack('stress')">Stressed</button>
-            <button id="btn-hunger" class="tab-btn" onclick="showSnack('hunger')">Hungry</button>
-          </div>
-        </div>
-    
-        <div class="snack-grid">
-          <!-- Panels column -->
-          <div class="snack-panels">
-            <!-- Energy -->
-            <div id="snack-energy-limit" class="panel limit hidden" data-type="energy" data-mode="limit">
-              <h3 class="panel-title">LIMIT</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Cookies / Flavoured cracker (OREO, 1 round)</h4>
-                <p class="small-text">45 kcal • Carbs 6.74 g • Protein 0.56 g • Fat 1.78 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">High sugary kuih (Kuih Lapis, 1 piece)</h4>
-                <p class="small-text">132 kcal • Carbs 28.8 g • Protein 1.91 g • Fat 1.04 g</p>
-              </div>
-            </div>
-    
-            <div id="snack-energy-choose" class="panel choose hidden" data-type="energy" data-mode="choose">
-              <h3 class="panel-title">CHOOSE INSTEAD</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Banana (1 small)</h4>
-                <p class="small-text">60 kcal • Carbs 15 g • Protein 0 g • Fat 0 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Oat biscuit (1 round)</h4>
-                <p class="small-text">67 kcal • Carbs 8.07 g • Protein 0.96 g • Fat 3.39 g</p>
-              </div>
-            </div>
-    
-            <!-- Focus -->
-            <div id="snack-focus-limit" class="panel limit hidden" data-type="focus" data-mode="limit">
-              <h3 class="panel-title">LIMIT</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Sweet bun (1 piece)</h4>
-                <p class="small-text">100 kcal • Carbs 16.7 g • Protein 2.73 g • Fat 2.47 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Curry puff (1 piece)</h4>
-                <p class="small-text">128 kcal • Carbs 17.28 g • Protein 1.88 g • Fat 5.64 g</p>
-              </div>
-            </div>
-    
-            <div id="snack-focus-choose" class="panel choose hidden" data-type="focus" data-mode="choose">
-              <h3 class="panel-title">CHOOSE INSTEAD</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Yoghurt (1/2 cup, low-fat)</h4>
-                <p class="small-text">118 kcal • Carbs 17.3 g • Protein 6.5 g • Fat 2.5 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Nuts (Cashew, 100 g)</h4>
-                <p class="small-text">579 kcal • Carbs 18.5 g • Protein 21.2 g • Fat 46.7 g</p>
-              </div>
-            </div>
-    
-            <!-- Stress -->
-            <div id="snack-stress-limit" class="panel limit hidden" data-type="stress" data-mode="limit">
-              <h3 class="panel-title">LIMIT</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Potato chips (medium packet)</h4>
-                <p class="small-text">264 kcal • Carbs 27.05 g • Protein 2.6 g • Fat 16.1 g • Sodium 356 mg</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Instant noodle (1 piece)</h4>
-                <p class="small-text">360 kcal • Carbs 54.57 g • Protein 8.33 g • Fat 12.07 g</p>
-              </div>
-            </div>
-    
-            <div id="snack-stress-choose" class="panel choose hidden" data-type="stress" data-mode="choose">
-              <h3 class="panel-title">CHOOSE INSTEAD</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Red apple (1 medium)</h4>
-                <p class="small-text">63 kcal • Carbs 14.7 g • Protein 0.22 g • Fat 0.45 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Roasted almonds (10 nuts)</h4>
-                <p class="small-text">81 kcal • Carbs 1.14 g • Protein 3.07 g • Fat 7.12 g</p>
-              </div>
-            </div>
-    
-            <!-- Hunger -->
-            <div id="snack-hunger-limit" class="panel limit hidden" data-type="hunger" data-mode="limit">
-              <h3 class="panel-title">LIMIT</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Cheeseburger (1 whole)</h4>
-                <p class="small-text">341 kcal • Carbs 28.64 g • Protein 24.55 g • Fat 14.26 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Pepperoni pizza (1 slice)</h4>
-                <p class="small-text">155 kcal • Carbs 8.5 g • Protein 9.45 g • Fat 9.24 g</p>
-              </div>
-            </div>
-    
-            <div id="snack-hunger-choose" class="panel choose hidden" data-type="hunger" data-mode="choose">
-              <h3 class="panel-title">CHOOSE INSTEAD</h3>
-              <div class="panel-item">
-                <h4 class="item-title">Egg sandwich (1 whole)</h4>
-                <p class="small-text">481 kcal • Carbs 19.69 g • Protein 38.2 g • Fat 27.77 g</p>
-              </div>
-              <div class="panel-item">
-                <h4 class="item-title">Boiled corn (1/2 cup)</h4>
-                <p class="small-text">60 kcal • Carbs 15 g • Protein 0 g • Fat 0 g • Fibre 2 g</p>
-              </div>
-            </div>
-          </div>
-    
-          <!-- Visual column -->
-          <div class="snack-visual">
-            <picture>
-              <source id="snack-img-webp" type="image/webp">
-              <img id="snack-img" src="images/snack-energy-choose.jpg" alt="Snack suggestion" loading="lazy" class="visual-img">
-            </picture>
-          </div>
-        </div>
-      </div>
     </section>
+    
 
     <!-- Health Assessment Tools (BMI & BMR) -->
     <section id="tools" class="py-24">
@@ -584,12 +414,13 @@
         <!-- Header Card -->
         <div class="max-w-5xl mx-auto px-4">
                 <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-6 text-center">
-                    <h2 class="text-3xl font-bold mb-2">BMI & Energy Requirement Calculator</h2>
+                    <h2 class="text-3xl font-bold mb-2">BMR & Energy Requirement Calculator</h2>
                     <p class="text-slate-500">Validated calculations aligned with Malaysian clinical nutrition practices.</p>
                 </div>
                 <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
-    
-                       <!-- Tab Buttons -->
+                    
+                    <!-- Tab Buttons -->
+                    <div class="flex bg-slate-50 border-b border-slate-100">
                         <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white transition-all">
                             <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)
                         </button>
@@ -673,7 +504,7 @@
                                                 <span>Extremely High</span>
                                             </div>
                                         </div>
-                                        <p id="bmi-suggestion" class="text-slate-500 text-sm leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management of Obesity
+                                        <p id="bmi-suggestion" class="text-slate-500 text-sm leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management [...]
                                     </div>
                                 </div>       
                             </div>
@@ -819,49 +650,6 @@
     </footer>
 
     <script>
-            const snackImages = {
-              energy: { limit: 'WhatsApp Image 2025-12-23 at 04.28.27.jpeg';'WhatsApp Image 2025-12-23 at 04.29.16.jpeg', choose: 'WhatsApp Image 2025-12-23 at 04.32.01.jpeg';'WhatsApp Image 2025-12-23 at 04.33.02.jpeg' },
-              focus:  { limit: 'WhatsApp Image 2025-12-23 at 04.33.24.jpeg';'WhatsApp Image 2025-12-23 at 04.33.25.jpeg',  choose: 'WhatsApp Image 2025-12-23 at 04.33.26.jpeg';'WhatsApp Image 2025-12-23 at 04.33.26 (1).jpeg';'WhatsApp Image 2025-12-23 at 04.33.26 (1).jpeg'  },
-              stress: { limit: 'WhatsApp Image 2025-12-23 at 04.33.26 (2).jpeg';'WhatsApp Image 2025-12-23 at 04.33.27.jpeg';'WhatsApp Image 2025-12-23 at 04.33.27 (1).jpeg', choose: 'WhatsApp Image 2025-12-23 at 04.33.28.jpeg';'WhatsApp Image 2025-12-23 at 04.33.28 (1).jpeg';'WhatsApp Image 2025-12-23 at 04.33.43.jpeg' },
-              hunger: { limit: 'WhatsApp Image 2025-12-23 at 04.33.44.jpeg';'WhatsApp Image 2025-12-23 at 04.33.44 (1).jpeg', choose: 'WhatsApp Image 2025-12-23 at 04.33.45.jpeg';'WhatsApp Image 2025-12-23 at 04.39.43.jpeg' }
-            };
-            
-            function showSnack(type) {
-              // hide all panels and reset buttons
-              ['energy','focus','stress','hunger'].forEach(t => {
-                const limit = document.getElementById('snack-' + t + '-limit');
-                const choose = document.getElementById('snack-' + t + '-choose');
-                if (limit) limit.classList.add('hidden');
-                if (choose) choose.classList.add('hidden');
-                const btn = document.getElementById('btn-' + t);
-                if (btn) btn.classList.remove('active');
-              });
-            
-              // show selected pair
-              const limitEl = document.getElementById('snack-' + type + '-limit');
-              const chooseEl = document.getElementById('snack-' + type + '-choose');
-              if (limitEl) limitEl.classList.remove('hidden');
-              if (chooseEl) chooseEl.classList.remove('hidden');
-            
-              // update visual image (show 'choose' by default)
-              const img = document.getElementById('snack-img');
-              const webp = document.getElementById('snack-img-webp');
-              if (img && snackImages[type]) {
-                img.src = snackImages[type].choose || snackImages[type].limit;
-                img.alt = type + ' snack suggestion';
-                if (webp) webp.srcset = (snackImages[type].choose || snackImages[type].limit).replace(/\.\w+$/, '.webp');
-              }
-            
-              // mark active button
-              const activeBtn = document.getElementById('btn-' + type);
-              if (activeBtn) activeBtn.classList.add('active');
-            }
-            
-            // initialize default view
-            window.addEventListener('DOMContentLoaded', () => {
-              // show energy by default
-              showSnack('energy');
-            }
             /* Water calculator */
             function calculateWater() {
               const weightEl = document.getElementById('water-weight');
@@ -1019,13 +807,6 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
