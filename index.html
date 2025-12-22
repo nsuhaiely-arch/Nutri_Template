@@ -807,33 +807,42 @@
         // ----- Snacks UI (single correct implementation) -----
         function showSnack(type) {
             // Hide all contents
-            ['energy', 'focus', 'stress'].forEach(t => {
-                document.getElementById('snack-' + t).classList.remove('active');
+            const categories = ['energy', 'focus', 'stress', 'hunger'];
+            categories.forEach(t => {
+                const content = document.getElementById('snack-' + t);
                 const btn = document.getElementById('btn-' + t);
-                btn.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                btn.classList.add('border-slate-700');
+                
+                if (content) content.classList.remove('active');
+                if (btn) {
+                    btn.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
+                    btn.classList.add('border-slate-700');
+                }
             });
-            
-            // Show selected
-            document.getElementById('snack-' + type).classList.add('active');
+            const selectedContent = document.getElementById('snack-' + type);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
             const activeBtn = document.getElementById('btn-' + type);
-            activeBtn.classList.remove('border-slate-700');
-            activeBtn.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-
-            });
-
-            // Update Image
+            if (activeBtn) {
+                activeBtn.classList.remove('border-slate-700');
+                activeBtn.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
+            }
             const img = document.getElementById('snack-img');
-            if (!img) return;
-            const images = {
-                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-            };
-            img.src = images[type] || images['energy'];
+            if (img) {
+                const images = {
+                    'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                    'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                    'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                    'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+                };
+                
+                img.style.opacity = '0'; // Kesan transisi keluar
+                setTimeout(() => {
+                    img.src = images[type] || images['energy'];
+                    img.style.opacity = '1'; // Kesan transisi masuk
+                }, 200);
+            }
         }
-
         // ----- Game Logic -----
         let gameActive = false;
         let score = 0;
@@ -923,6 +932,7 @@
     </script>
 </body>
 </html>
+
 
 
 
