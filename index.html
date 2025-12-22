@@ -68,6 +68,21 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: slideUp 0.4s ease-out; }
+        
+        /* Tab Button Active State */
+        .tab-btn.active-tab {
+            background-color: #059669; /* emerald-600 */
+            color: white;
+            border-color: #059669;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         
         #game-container {
             position: relative;
@@ -158,33 +173,32 @@
             font-family: 'Segoe UI', sans-serif;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .input-group { margin: 15px 0; }
-    input {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        width: 60%;
-    }
-    button {
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    button:hover { background: #0056b3; }
-    .result {
-        margin-top: 20px;
-        padding: 15px;
-        background: white;
-        border-radius: 10px;
-    }
-    #water-result { color: #007bff; margin: 5px 0; }
-    .small-text { font-size: 0.9em; color: #666; }
-
+        }
+        .input-group { margin: 15px 0; }
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 60%;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #0056b3; }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        #water-result { color: #007bff; margin: 5px 0; }
+        .small-text { font-size: 0.9em; color: #666; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -700,7 +714,7 @@
                 
                 tabBmi.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white";
                 tabBmr.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400";
-                calculateBMI();
+                calculateAll();
             } else {
                 bmiContent.style.display = 'none';
                 bmrContent.style.display = 'block';
@@ -867,6 +881,9 @@
         }
 
         // ----- Game Logic -----
+        let container, paddle, scoreDisplay, ui;
+        let bgm, sfxPop, sfxBad;
+        
         const container = document.getElementById('game-container');
         const paddle = document.getElementById('player-paddle');
         const scoreDisplay = document.getElementById('score');
@@ -874,18 +891,20 @@
         
         let score = 0;
         let gameActive = false;
-        let paddlePos = 0;
-        const bgm = document.getElementById('game-bgm'); // Get Audio Element
+        let paddlePos = 185;
+        
+        const.bgm=document.getElementById('game-bgm'); // Get Audio Element
         
         const items = [
             '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋', // Healthy
             '🍩', '🥤', '🥟', '🍬', '🍔', '🍟', '🍕', '🌭', '🍪', '🍰', '🍦', '🍫', '🧁', '🥨', '🥞', '🧇', '🥐', '🍮', '🍭' // Unhealthy
         ];
         const goodItems = [ '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋'];
-        
+
         // Mouse & Touch Handler
         function updatePaddle(clientX) {
-             if (!gameActive) return;
+             if (!gameActive || !container) return; // Guard clause
+             
             const rect = container.getBoundingClientRect();
             let x = clientX - rect.left - 40; // Center paddle
             
@@ -896,13 +915,6 @@
             paddlePos = x;
             paddle.style.left = x + 'px';
         }
-
-        container.addEventListener('mousemove', (e) => updatePaddle(e.clientX));
-        container.addEventListener('touchmove', (e) => {
-            e.preventDefault(); // Stop scrolling
-            updatePaddle(e.touches[0].clientX);
-        });
-
         function startGame() {
             gameActive = true;
             score = 0;
@@ -910,11 +922,10 @@
             ui.style.display = 'none';
             
             // Play Music
-            if (bgm) {
-                bgm.volume = 0.4; // Set volume to 40%
-                bgm.currentTime = 0;
-                attemptPlayBgm();
-            }
+            bgm.volume = 0.4; // Set volume to 40%
+            bgm.currentTime = 0;
+            bgm.play().catch(e => console.log("Audio play failed", e));
+            {
             
             // Spawn items loop
             const spawnInterval = setInterval(() => {
@@ -930,11 +941,9 @@
                 gameActive = false;
                 
                 // Stop Music
-                if (bgm) {
-                    bgm.pause();
-                    bgm.currentTime = 0;
-                }
-
+                bgm.pause();
+                bgm.currentTime = 0;
+            
                 ui.innerHTML = `
                     <h3 class="text-3xl font-bold mb-2">Time's Up!</h3>
                     <p class="mb-4 text-xl">Energy Level: <span class="${score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${score}</span></p>
@@ -947,40 +956,9 @@
             }, 30000);
         }
 
-        // Try to play BGM, and show unlock button if play() is rejected
-        function attemptPlayBgm() {
-            if (!bgm) return;
-            const p = bgm.play();
-            if (p !== undefined) {
-                p.then(() => {
-                    const unlock = document.getElementById('audio-unlock');
-                    if (unlock) unlock.classList.add('hidden');
-                }).catch(e => {
-                    console.log('Audio play failed:', e);
-                    const unlock = document.getElementById('audio-unlock');
-                    if (unlock) unlock.classList.remove('hidden');
-                });
-            }
-        }
-
-        // Make unlockAudio global (so onclick in markup works)
-        function unlockAudio() {
-            if (!bgm) return;
-            try {
-                bgm.muted = false;
-                bgm.currentTime = 0;
-                bgm.play().then(() => {
-                    const unlock = document.getElementById('audio-unlock');
-                    if (unlock) unlock.classList.add('hidden');
-                }).catch(e => {
-                    console.log('Audio unlock attempt failed:', e);
-                });
-            } catch(e) {
-                console.log('Unlock audio error', e);
-            }
-        }
-
         function createItem() {
+            if (!gameActive || !container) return; // Guard clause
+
             const el = document.createElement('div');
             const item = items[Math.floor(Math.random() * items.length)];
             el.className = 'item-drop';
@@ -1013,6 +991,7 @@
                         if (goodItems.includes(item)) {
                             score += 10;
                             el.style.textShadow = "0 0 10px #10b981";
+                            }
                         } else {
                             score -= 15;
                             el.style.textShadow = "0 0 10px #f43f5e";
@@ -1040,10 +1019,12 @@
         // Init UI
         syncAndCalculate();
         calculateBMR();
+        calculateWater()
         showSnack('energy');
     </script>
 </body>
 </html>
+
 
 
 
