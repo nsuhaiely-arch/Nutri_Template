@@ -266,7 +266,7 @@
                         <p>Based on MDG 2020: Stay hydrated for peak office performance.</p>
                         <div class="input-group">
                             <label for="weight">Enter your weight (kg):</label>
-                            <input type="number" id="weight" placeholder="e.g. 70" min="20">
+                            <input type="number" id="water-weight" placeholder="e.g. 70" min="20">
                         </div>
 
                         <button onclick="calculateWater()">Calculate My Goal</button>
@@ -436,12 +436,13 @@
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                                 
                                 <!-- KIRI: Input BMI -->
+                              
                                 <div class="lg:col-span-7 space-y-6">
                                     <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest">BMI Input Details</h3>
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
                                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 uppercase">Age (Years)</label>
-                                            <input type="number" id="bmi-age" value="30" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition" oninput="calculateAll()">
+                                            <input class type="number" id="bmi-age" value="30" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition" oninput="calculateAll()">
                                         </div>
 
                                         <div>
@@ -528,6 +529,7 @@
                                             <div class="lg:col-span-7 space-y-6">
                                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                     <div>
+                                                       
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
                                                         <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
                                                             <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
@@ -546,15 +548,15 @@
                                                 <div class="grid grid-cols-3 gap-4">
                                                     <div>
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
-                                                        <input type="number" id="bmi-age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                                        <input type="number" id="bmr-age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
                                                     </div>
                                                     <div>
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
-                                                        <input type="number" id="bmi-height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                                        <input type="number" id="bmr-height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
                                                     </div>
                                                     <div>
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
-                                                        <input type="number" id="bmi-weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                                        <input type="number" id="bmr-weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
                                                     </div>
                                                 </div>
                         
@@ -647,288 +649,165 @@
         </div>
     </footer>
 
-    <script src="script.js">
-        function goTo(id) {
-            document.getElementById(id).scrollIntroView({ behavior: "smooth" });
-        }
-        
-        function calculateWater() {
-            const weight = document.getElementById("weight").value;
-            const result = document.getElementById("waterResult");
-            
-            if (!weight) {
-                result.innerText = "please enter your weight.";
-                return;
-            }
-            const water = (weight * 35)/1000;     
-            result.innerText = "Your estimated daily goal: " + water.toFixed(1) + " L/day";
-        }
-        // --- 3. BMI & BMR SWITCHER ---
-        function switchCalc(type) {
-            const bmiContent = document.getElementById('content-bmi');
-            const bmrContent = document.getElementById('content-bmr');
-            const tabBmi = document.getElementById('tab-bmi');
-            const tabBmr = document.getElementById('tab-bmr');
-
-            if (type === 'bmi') {
-                bmiContent.style.display = 'block';
-                bmrContent.style.display = 'none';
-                
-                tabBmi.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white";
-                tabBmr.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400";
-                calculateAll();
-            } else {
-                bmiContent.style.display = 'none';
-                bmrContent.style.display = 'block';
-                
-                tabBmr.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-blue-500 text-blue-600 bg-white";
-                tabBmi.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400";
-                calculateBMR();
-            }
-        }
-   
-        // Basic BMI sync (uses the inputs present)
-        function calculateAll() {
-            const w = parseFloat(document.getElementById('bmi-weight')?.value) || 0;
-            const h = parseFloat(document.getElementById('bmi-height')?.value) / 100;
-            const a = parseFloat(document.getElementById('bmi-age')?.value) || 0;
-             
-            if (!h || !w) return;
-                // BMI Calculation (Asian Standards)
-            const bmi = (w / (h * h)).toFixed(1);
-            document.getElementById('bmi-display').innerText = bmi;
-
-            if (h > 0) {
-                    const bmi = w / ((h / 100) ** 2);
-                    document.getElementById('bmi-display').innerText = bmi.toFixed(1);
-                    
-            let s = "", c = "", bg = "", r = "", f = "";    
-                
-            if (bmi < 18.5) { 
-                s = "Underweight"; 
-                c = "text-blue-600"; 
-                bg = "bg-blue-100"; 
-                r = "Low, but with increased risk of other clinical problems";
-                f = "Consider a calorie-dense but balanced diet to achieve a healthier weight."; 
-            
-            } else if (bmi < 23.0) { 
-                    s = "Normal"; 
-                    c = "text-green-600"; 
-                    bg = "bg-green-100"; 
-                    r = "Optimal";
-                    f = "Excellent! Maintain your current lifestyle and balanced plate."; 
-            } else if (bmi < 27.5) { 
-                    s = "Pre-obese (Overweight)"; 
-                    c = "text-yellow-600"; 
-                    bg = "bg-yellow-100"; 
-                    r = "Increased";
-                    f = "Monitor your portion sizes and increase daily physical activity."; 
-            } else if (bmi < 32.5) { 
-                    s = "Obese I"; 
-                    c = "text-orange-600"; 
-                    bg = "bg-orange-100"; 
-                    r = "High";
-                    f = "Consider small dietary adjustments and consult a nutritionist."; 
-            } else if (bmi < 37.5) { 
-                    s = "Obese II"; 
-                    c = "text-red-600"; 
-                    bg = "bg-red-100"; 
-                    r = "Very High";
-                    f = "Focus on weight management to reduce risk of chronic diseases."; 
-            } else { 
-                    s = "Obese III"; 
-                    c = "text-red-900"; 
-                    bg = "bg-red-200"; 
-                    r = "Extremely High";
-                    f = "Seek medical advice for a comprehensive weight management plan."; 
+    <script>
+            /* Water calculator */
+            function calculateWater() {
+              const weightEl = document.getElementById('water-weight');
+              if (!weightEl) return;
+              const weight = parseFloat(weightEl.value) || 0;
+              if (!weight) return;
+              const liters = +(weight * 0.035).toFixed(1);
+              const glasses = Math.round(liters * 4);
+              document.getElementById('water-result').innerText = liters + ' Litres';
+              document.getElementById('glass-count').innerText = glasses;
+              document.getElementById('result-box').style.display = 'block';
             }
             
-            const tag = document.getElementById('bmi-status-tag');
-            tag.innerText = s; 
-            tag.className = `px-4 py-1 rounded-full ${bg} ${c} font-bold text-xs uppercase`;
-            
-            document.getElementById('bmi-marker').style.left = pos + "%";
-            document.getElementById('bmi-display').className = `text-7xl font-black ${c}`;
-            document.getElementById('risk-badge').innerText = `Comorbidity Risk: ${r}`;
-            document.getElementById('bmi-feedback').innerText = f;
-        }    
-           
-        let currentGender = 'male';
-    
-        function setGender(gender) {
-                currentGender = gender;
-                const maleBtn = document.getElementById('btn-male');
-                const femaleBtn = document.getElementById('btn-female');
-                
-                if (gender === 'male') {
-                    maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
-                    femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
-                } else {
-                    femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
-                    maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
-                }
-                calculateBMR();
-        }
-    
-        function calculateAll() {
-                const age = parseFloat(document.getElementById('bmi-age').value) || 0;
-                const height = parseFloat(document.getElementById('bmi-height').value) || 0;
-                const weight = parseFloat(document.getElementById('bmi-weight').value) || 0;
-                const formula = document.getElementById('formula').value;
-                const gender = document.getElementById('bmi-gender').value;
-
-                
-                let bmr = 0;
-                
-                if (formula === 'mifflin') {
-                    if (currentGender === 'male') {
-                        bmr = (10 * bmi-weight) + (6.25 * bmi-height) - (5 * bmi-age) + 5;
-                    } else {
-                        bmr = (10 * bmi-weight) + (6.25 * bmi-height) - (5 * bmi-age) - 161;
-                    }
-                    } else {
-                    if (currentGender === 'male') {
-                        bmr = (13.397 * bmi-weight) + (4.799 * bmi-height) - (5.677 * bmi-age) + 88.362;
-                    } else {
-                        bmr = (9.247 * bmi-weight) + (3.098 * bmi-height) - (4.330 * bmi-age) + 447.593;
-                    }
-                }
-    
-                if (bmr < 0) bmr = 0;
-                const tdee = bmr * activity;
-                
-                document.getElementById('bmr-result').innerText = Math.round(bmr) + " kcal";
-                document.getElementById('tdee-val').innerText = Math.round(tdee);
-                document.getElementById('loss-result').innerText = Math.round(tdee - 500) + " kcal";
-                document.getElementById('maintain-result').innerText = Math.round(tdee) + " kcal";
-        }
-            
-        // ----- Snacks UI (single correct implementation) -----
-        function showSnack(type) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected
-            document.getElementById('snack-' + type).classList.add('active');
-            
-            // Update buttons
-            const buttons = ['energy', 'focus', 'stress', 'hunger'];
-            buttons.forEach(btn => {
+            /* Snack tabs */
+            function showSnack(type) {
+              document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+              const target = document.getElementById('snack-' + type);
+              if (target) target.classList.add('active');
+              ['energy','focus','stress','hunger'].forEach(btn => {
                 const el = document.getElementById('btn-' + btn);
-                if(btn === type) {
-                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-                } else {
-                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                }
-            });
-
-            // Update Image
-            const img = document.getElementById('snack-img');
-            const images = {
-                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-            };
-            img.src = images[type];
-        }
-
-        // ----- Game Logic -----
-        let score = 0;
-        let gameInterval;
-      
-        let paddlePos = 185;
-        const container = document.getElementById('game-container');
-        const bgm = document.getElementById('game-bgm');
-        const scoreDisplay = document.getElementById('score');
-        const ui = document.getElementById('game-ui');
-        const.bgm=document.getElementById('game-bgm'); // Get Audio Element
-        
-        if(container) {
-            container.addEventListener('mousemove', (e) => {
+                if (!el) return;
+                if (btn === type) el.classList.add('bg-slate-800','text-green-400','border-green-400');
+                else el.classList.remove('bg-slate-800','text-green-400','border-green-400');
+              });
+              const images = {
+                energy: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                focus: 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                stress: 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                hunger: 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+              };
+              const img = document.getElementById('snack-img');
+              if (img && images[type]) img.src = images[type];
+            }
+            
+            /* BMI calculator */
+            function calculateBMI() {
+              const age = parseFloat(document.getElementById('bmi-age').value) || 0;
+              const heightCm = parseFloat(document.getElementById('bmi-height').value) || 0;
+              const weight = parseFloat(document.getElementById('bmi-weight').value) || 0;
+              if (!heightCm || !weight) return;
+              const h = heightCm / 100;
+              const bmi = +(weight / (h * h)).toFixed(1);
+              document.getElementById('bmi-display').innerText = bmi;
+              let status = '', colorClass = '', bgClass = '', risk = '', feedback = '';
+              if (bmi < 18.5) { status='Underweight'; colorClass='text-blue-600'; bgClass='bg-blue-100'; risk='Low, but increased risk'; feedback='Consider calorie-dense balanced diet.'; }
+              else if (bmi < 23) { status='Normal'; colorClass='text-green-600'; bgClass='bg-green-100'; risk='Optimal'; feedback='Maintain your current lifestyle.'; }
+              else if (bmi < 27.5) { status='Pre-obese'; colorClass='text-yellow-600'; bgClass='bg-yellow-100'; risk='Increased'; feedback='Monitor portions and activity.'; }
+              else if (bmi < 32.5) { status='Obese I'; colorClass='text-orange-600'; bgClass='bg-orange-100'; risk='High'; feedback='Consider dietary adjustments.'; }
+              else if (bmi < 37.5) { status='Obese II'; colorClass='text-red-600'; bgClass='bg-red-100'; risk='Very High'; feedback='Focus on weight management.'; }
+              else { status='Obese III'; colorClass='text-red-900'; bgClass='bg-red-200'; risk='Extremely High'; feedback='Seek medical advice.'; }
+              const tag = document.getElementById('bmi-status-tag');
+              tag.innerText = status;
+              tag.className = 'px-4 py-1 rounded-full ' + bgClass + ' ' + colorClass + ' font-bold text-xs uppercase';
+              document.getElementById('bmi-feedback').innerText = feedback;
+              // marker position (0-100) approximate mapping
+              const pos = Math.min(95, Math.max(2, (bmi / 45) * 100));
+              document.getElementById('bmi-marker').style.left = pos + '%';
+              document.getElementById('bmi-display').className = 'text-7xl font-black ' + colorClass;
+              document.getElementById('risk-badge').innerText = 'Comorbidity Risk: ' + risk;
+            }
+            
+            /* BMR / TDEE */
+            let currentGender = 'male';
+            function setGender(g) { currentGender = g; document.getElementById('btn-male').classList.toggle('bg-green-100', g==='male'); document.getElementById('btn-female').classList.toggle('bg-green-100', g==='female'); calculateBMR(); }
+            function calculateBMR() {
+              const age = parseFloat(document.getElementById('bmr-age').value) || 0;
+              const height = parseFloat(document.getElementById('bmr-height').value) || 0;
+              const weight = parseFloat(document.getElementById('bmr-weight').value) || 0;
+              const formula = document.getElementById('formula').value;
+              const activity = parseFloat(document.getElementById('activity').value) || 1.2;
+              if (!height || !weight) return;
+              let bmr = 0;
+              if (formula === 'mifflin') {
+                if (currentGender === 'male') bmr = 10*weight + 6.25*height - 5*age + 5;
+                else bmr = 10*weight + 6.25*height - 5*age - 161;
+              } else {
+                if (currentGender === 'male') bmr = 13.397*weight + 4.799*height - 5.677*age + 88.362;
+                else bmr = 9.247*weight + 3.098*height - 4.330*age + 447.593;
+              }
+              if (bmr < 0) bmr = 0;
+              const tdee = Math.round(bmr * activity);
+              document.getElementById('bmr-result').innerText = Math.round(bmr) + ' kcal';
+              document.getElementById('tdee-val').innerText = tdee;
+              document.getElementById('loss-result').innerText = Math.max(0, tdee - 500) + ' kcal';
+              document.getElementById('maintain-result').innerText = tdee + ' kcal';
+            }
+            
+            /* Game logic */
+            let gameActive = false, score = 0, paddlePos = 185;
+            const container = document.getElementById('game-container');
+            const bgm = document.getElementById('game-bgm');
+            const scoreDisplay = document.getElementById('score');
+            const ui = document.getElementById('game-ui');
+            const goodItems = ['🍎','🍌','🥜','🥦','🍇','🍊','🍓','🥕','🍒','🥑','🍍','🥬','🍉','🍐','🍋','🍑'];
+            const badItems = ['🍩','🍔','🍟','🍕','🍫','🍪','🍰','🍿','🍗','🌭','🍝','🍜'];
+            
+            if (container) {
+              container.addEventListener('mousemove', e => {
                 const rect = container.getBoundingClientRect();
                 let x = e.clientX - rect.left - 40;
-                if(x < 0) x = 0;
-                if(x > rect.width - 80) x = rect.width - 80;
+                x = Math.max(0, Math.min(rect.width - 80, x));
                 paddlePos = x;
-                document.getElementById('player-paddle').style.left = x + 'px';
-            });
-        }
-        function startGame() {
-            if (gameActive) return;
-            gameActive = true;
-            score = 0;
-            document.getElementById('score').innerText = 0;
-            document.getElementById('game-ui').style.display = 'none';
-            bgm.currentTime = 0;
-            bgm.volume = 0.5; // 
-            bgm.currentTime = 0;
-            bgm.play().catch(e => console.log("Audio needed user interaction"));
-
-            // Spawn items loop
-            const spawner = setInterval(() => {
-                if (!gameActive) clearInterval(spawner);
-                else spawnItem();
-            }, 800);
-                
-            // Timer 30s
-            setTimeout(() => {
-                gameActive = false;
-                bgm.pause();
-                document.getElementById('game-ui').style.display = 'flex';
-                document.querySelectorAll('.item-drop').forEach(e => e.remove());
-            }, 30000);
-        }
-
-        function spawnItem() {
-            const items = [
-            '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋', // Healthy
-            '🍩', '🥤', '🥟', '🍬', '🍔', '🍟', '🍕', '🌭', '🍪', '🍰', '🍦', '🍫', '🧁', '🥨', '🥞', '🧇', '🥐', '🍮', '🍭' // Unhealthy
-            ];
-            const goodItems = [ '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋'];
-            const el = document.createElement('div');
-            const char = items[Math.floor(Math.random()*items.length)];
-            el.innerText = char;
-            el.className = 'item-drop';
-            el.style.left = Math.random() * (container.clientWidth - 50) + 'px';
-            el.style.top = '-50px';
-            container.appendChild(el);
-
-            let top = -50;
-            const fall = setInterval(() => {
-                if(!gameActive) { clearInterval(fall); el.remove(); return; }
-                top += 5;
+                const paddle = document.getElementById('player-paddle');
+                if (paddle) paddle.style.left = x + 'px';
+              });
+            }
+            
+            function spawnItem() {
+              if (!gameActive || !container) return;
+              const items = goodItems.concat(badItems);
+              const char = items[Math.floor(Math.random()*items.length)];
+              const el = document.createElement('div');
+              el.className = 'item-drop';
+              el.innerText = char;
+              el.style.left = Math.random() * (container.clientWidth - 50) + 'px';
+              el.style.top = '-50px';
+              container.appendChild(el);
+              let top = -50;
+              const fall = setInterval(() => {
+                if (!gameActive) { clearInterval(fall); el.remove(); return; }
+                top += 6;
                 el.style.top = top + 'px';
-
-                // Hit detection
-                if(top > 400 && top < 430) {
-                    const elX = parseFloat(el.style.left);
-                    if(elX > paddlePos - 30 && elX < paddlePos + 80) {
-                        if(good.includes(char)) score += 10;
-                        else score -= 15;
-                        document.getElementById('score').innerText = score;
-                        el.remove();
-                        clearInterval(fall);
-                    }
+                // collision using bounding boxes
+                const paddle = document.getElementById('player-paddle');
+                if (paddle) {
+                  const pRect = paddle.getBoundingClientRect();
+                  const eRect = el.getBoundingClientRect();
+                  if (eRect.bottom >= pRect.top && eRect.left < pRect.right && eRect.right > pRect.left) {
+                    if (goodItems.includes(char)) score += 10; else score -= 15;
+                    scoreDisplay.innerText = score;
+                    clearInterval(fall);
+                    el.remove();
+                  }
                 }
-                if(top > 450) { el.remove(); clearInterval(fall); }
-            }, 20);
-        }
-
-        // Init
-        window.onload = () => {
-            calculateWater();
-            switchCalc(type);
-            setGender(gender);
-            calculateAll();
-            showSnack('energy');
-            startGame();
-            spawnItem();  
+                if (top > container.clientHeight + 50) { clearInterval(fall); el.remove(); }
+              }, 20);
+            }
+            
+            function startGame() {
+              if (gameActive) return;
+              gameActive = true; score = 0; scoreDisplay.innerText = 0;
+              if (ui) ui.style.display = 'none';
+              if (bgm) { bgm.currentTime = 0; bgm.volume = 0.5; bgm.play().catch(()=>{}); }
+              const sp = setInterval(()=> { if (!gameActive) clearInterval(sp); else spawnItem(); }, 800);
+              setTimeout(()=> { gameActive = false; if (bgm) bgm.pause(); if (ui) ui.style.display = 'flex'; document.querySelectorAll('.item-drop').forEach(x=>x.remove()); }, 30000);
+            }
+            
+            /* Init */
+            window.onload = () => {
+              calculateWater();
+              showSnack('energy');
+              calculateBMI();
+              calculateBMR();
+            };
     </script>
 </body>
 </html>
+
 
 
 
