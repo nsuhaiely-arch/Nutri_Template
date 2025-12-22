@@ -30,15 +30,17 @@
             display: none;   
         }
         
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
+        .tab-btn.active-tab {
+            background-color: #059669; /* emerald-600 */
+            color: white;
+            border-color: #059669;
         }
         
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }   
         }
+        
         .bmi-content {
              display: flex;
              gap: 2rem;  
@@ -105,7 +107,8 @@
             background: #0f172a;
             border-radius: 24px;
             overflow: hidden;
-            touch-action: none; 
+            touch-action: none;
+            cursor: crosshair;
         }
 
         .item-drop {
@@ -113,6 +116,7 @@
             font-size: 2.5rem;
             user-select: none;
             transition: top 0.05s linear;
+            z-index: 5;
         }
 
         #player-paddle {
@@ -123,6 +127,8 @@
             background: #10b981;
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            transition: left 0.05s linear;
+            z-index: 10;
         }
         
         .water-calculator {
@@ -162,7 +168,7 @@
         .small-text { font-size: 0.9em; color: #666; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 glass-nav">
@@ -244,7 +250,7 @@
                         <i class="fas fa-utensils text-white text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">The "Healthy Plate" Guide</h3>
-                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">A visual blueprint for balancing your lunch to avoid the 3 PM crash. Learn the 2:1:1 ratio of greens, proteins, and complex c[...]
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">A visual blueprint for balancing your lunch to avoid the 3 PM crash. Learn the 2:1:1 ratio of greens, proteins, and complex carbs.</p>
                     <button class="text-green-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
                         Download PDF <i class="fas fa-download"></i>
                     </button>
@@ -263,13 +269,13 @@
                             <input type="number" id="weight" placeholder="e.g. 70" min="20">
                         </div>
 
-                    <button onclick="calculateWater()">Calculate My Goal</button>
+                        <button onclick="calculateWater()">Calculate My Goal</button>
 
-                    <div id="result-box" class="result" style="display:none;">
-                        <p>Your estimated daily goal:</p>
-                        <h2 id="water-result">0 Litres</h2>
-                        <span class="small-text">(Approx. <span id="glass-count">0</span> glasses per day)</span>
-                    </div>
+                        <div id="result-box" class="result" style="display:none;">
+                            <p>Your estimated daily goal:</p>
+                            <h2 id="water-result">0 Litres</h2>
+                            <span class="small-text">(Approx. <span id="glass-count">0</span> glasses per day)</span>
+                        </div>
                 </div>
 
                 <!-- Aid 3 -->
@@ -286,7 +292,6 @@
             </div>
         </div>
     </section>
-    
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
@@ -366,7 +371,7 @@
                     <p class="text-slate-400 mb-8">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry or vending machine.</p>
                     
                     <div class="flex flex-wrap gap-3 mb-10">
-                        <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 text-green-400 border-green-400" id="btn-energy">Low Energy</button>
+                        <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition active-btn" id="btn-energy">Low Energy</button>
                         <button onclick="showSnack('focus')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-focus">Distracted</button>
                         <button onclick="showSnack('stress')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-stress">Stressed</button>
                         <button onclick="showSnack('hunger')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-hunger">Hangry</button>
@@ -395,7 +400,7 @@
                 <div class="md:w-1/2 flex justify-center">
                     <div class="relative">
                         <div class="w-64 h-64 md:w-80 md:h-80 bg-green-500 rounded-full flex items-center justify-center animate-pulse opacity-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-                        <img id="snack-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400" alt="Healthy Snack" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full relative z-10">
+                        <img id="snack-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400" alt="Healthy Snack" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full shadow-2xl relative z-10 border-8 border-slate-800">
                     </div>
                 </div>
             </div>
@@ -799,42 +804,35 @@
         // ----- Snacks UI (single correct implementation) -----
         function showSnack(type) {
             // Hide all contents
-            const categories = ['energy', 'focus', 'stress', 'hunger'];
-            categories.forEach(t => {
-                const content = document.getElementById('snack-' + t);
-                const btn = document.getElementById('btn-' + t);
-                
-                if (content) content.classList.remove('active');
-                if (btn) {
-                    btn.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                    btn.classList.add('border-slate-700');
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected
+            document.getElementById('snack-' + type).classList.add('active');
+            
+            // Update buttons
+            const buttons = ['energy', 'focus', 'stress', 'hunger'];
+            buttons.forEach(btn => {
+                const el = document.getElementById('btn-' + btn);
+                if(btn === type) {
+                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
+                } else {
+                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
                 }
             });
-            const selectedContent = document.getElementById('snack-' + type);
-            if (selectedContent) {
-                selectedContent.classList.add('active');
-            }
-            const activeBtn = document.getElementById('btn-' + type);
-            if (activeBtn) {
-                activeBtn.classList.remove('border-slate-700');
-                activeBtn.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-            }
+
+            // Update Image
             const img = document.getElementById('snack-img');
-            if (img) {
-                const images = {
-                    'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
-                    'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
-                    'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
-                    'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
-                };
-                
-                img.style.opacity = '0'; // Kesan transisi keluar
-                setTimeout(() => {
-                    img.src = images[type] || images['energy'];
-                    img.style.opacity = '1'; // Kesan transisi masuk
-                }, 200);
-            }
+            const images = {
+                'energy': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400',
+                'focus': 'https://images.unsplash.com/photo-1596507724570-f8521ffc58ed?auto=format&fit=crop&q=80&w=400',
+                'stress': 'https://images.unsplash.com/photo-1623334042903-d44a7049448a?auto=format&fit=crop&q=80&w=400',
+                'hunger': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=400'
+            };
+            img.src = images[type];
         }
+
         // ----- Game Logic -----
         let gameActive = false;
         let score = 0;
@@ -916,14 +914,12 @@
             }, 20);
         }
 
-        // Initialize calculations on load
-        CalculateAll();
-        calculateBMR();
-        calculateWater()
+        // Init
         showSnack('energy');
     </script>
 </body>
 </html>
+
 
 
 
