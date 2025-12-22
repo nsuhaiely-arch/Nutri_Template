@@ -39,51 +39,19 @@
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-
         
-        /* Results area (BMI & BMR) - allow side-by-side by default, and single-mode when a tab is selected */
-        .tab-content-calc {
-            display: block;
-            
-        }
-
-        /* When in single-mode, hide all then only show the one with .active */
-        #calc-results.single .tab-content-calc {
-            display: none;
-        }
-
-        #calc-results.single .tab-content-calc.active {
-            display: block;
-        }
-        #content-bmr { display: none; }
-        
-        .tab-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            gap: 40px;
-            align-items: start;
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Tabs & Animations */
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: slideUp 0.4s ease-out; }
         
-        /* Tab Button Active State */
-        .tab-btn.active-tab {
-            background-color: #059669; /* emerald-600 */
-            color: white;
-            border-color: #059669;
-        }
+        .tab-content-calc { display: none; }
+        .tab-content-calc.active { display: block; animation: slideUp 0.4s ease-out; }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        
         #game-container {
             position: relative;
             width: 100%;
@@ -164,6 +132,7 @@
             width: 40%;
             font-weight: bold;
             color: #ffffff;
+        }
         .water-calculator {
             background: #f4f9ff;
             border: 2px solid #007bff;
@@ -405,7 +374,7 @@
                     <p class="text-slate-400 mb-8">Tell us what you're feeling, and we'll recommend the optimal snack from your office pantry or vending machine.</p>
                     
                     <div class="flex flex-wrap gap-3 mb-10">
-                        <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition active-btn" id="btn-energy">Low Energy</button>
+                        <button onclick="showSnack('energy')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 text-green-400 border-green-400" id="btn-energy">Low Energy</button>
                         <button onclick="showSnack('focus')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-focus">Distracted</button>
                         <button onclick="showSnack('stress')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-stress">Stressed</button>
                         <button onclick="showSnack('hunger')" class="px-6 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition" id="btn-hunger">Hangry</button>
@@ -423,12 +392,12 @@
 
                     <div id="snack-stress" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-purple-500">
                         <h4 class="text-xl font-bold mb-2">The Calm Crunch</h4>
-                        <p class="text-slate-600 text-slate-400">Dark Chocolate (70%+) or Herbal Tea. Magnesium in cocoa helps regulate cortisol levels during tight deadlines.</p>
+                        <p class="text-slate-400">Dark Chocolate (70%+) or Herbal Tea. Magnesium in cocoa helps regulate cortisol levels during tight deadlines.</p>
                     </div>
 
                     <div id="snack-hunger" class="tab-content p-6 bg-slate-800 rounded-2xl border-l-4 border-orange-500">
                         <h4 class="text-xl font-bold mb-2">The Satiety Hero</h4>
-                        <p class="text-slate-600 text-slate-400">Hard-boiled Egg or Apple slices with Nut Butter. High fiber and protein to keep hunger at bay until dinner.</p>
+                        <p class="text-slate-400">Hard-boiled Egg or Apple slices with Nut Butter. High fiber and protein to keep hunger at bay until dinner.</p>
                     </div>
                 </div>
                 <div class="md:w-1/2 flex justify-center">
@@ -474,8 +443,8 @@
                                     <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest">BMI Input Details</h3>
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label class="block text-[10px] font-black uppercase text-slate-500 mb-2 tracking-widest">Age (Years)</label>
-                                            <input type="number" id="user-age" value="30" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-bold text-xl focus:border-emerald-500 outline-none transition" oninput="calculateAll()">
+                                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 uppercase">Age (Years)</label>
+                                            <input type="number" id="bmi-age" value="30" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition" oninput="calculateAll()">
                                         </div>
 
                                         <div>
@@ -580,15 +549,15 @@
                                                 <div class="grid grid-cols-3 gap-4">
                                                     <div>
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
-                                                        <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                                        <input type="number" id="bmi-age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
                                                     </div>
                                                     <div>
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
-                                                        <input type="number" id="height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                                        <input type="number" id="bmi-height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
                                                     </div>
                                                     <div>
                                                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
-                                                        <input type="number" id="weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                                        <input type="number" id="bmi-weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
                                                     </div>
                                                 </div>
                         
@@ -597,7 +566,7 @@
                                                     <select id="activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
                                                         <option value="1.2">Basal Metabolic Rate (BMR only)</option>
                                                         <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
-                                                        <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
+                                                        <option value="1.375 ">Lightly Active (Light exercise/sports 1-3 days/week)</option>
                                                         <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
                                                         <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
                                                         <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
@@ -656,11 +625,9 @@
     </section>
 
     <!-- Game BGM Audio -->
-    <audio id="game-bgm" loop src="IX.mp3" preload="auto"></audio>
-    <!-- When browsers block autoplay, show this button so users can explicitly enable sound -->
-    <div id="audio-unlock" class="hidden fixed bottom-6 right-6 z-50">
-        <button id="audio-unlock-btn" onclick="unlockAudio()" class="bg-amber-500 hover:bg-amber-400 text-white px-4 py-2 rounded-full shadow-lg">Enable Sound</button>
-    </div>
+    <audio id="game-bgm" loop> 
+        <source src="IX.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- Footer -->
     <footer class="bg-white py-12 border-t border-slate-100">
@@ -685,23 +652,19 @@
 
     <script>
         function calculateWater() {
-            const weight = document.getElementById('weight').value;
-            const resultBox = document.getElementById('result-box');
-    
-            if (weight > 0) {
-                // Formula: weight (kg) * 0.033 = Litres per day
-                const litres = (weight * 0.033).toFixed(1);
-                const glasses = Math.round(litres / 0.25); // Assuming 250ml per glass
-    
-                document.getElementById('water-result').innerText = litres + " Litres";
-                document.getElementById('glass-count').innerText = glasses;
-                resultBox.style.display = 'block';
-            } else {
-                alert("Please enter a valid weight.");
-            }
+            const weight = document.getElementById('water-weight').value;
+            if (!weight) return;
+            
+            // Formula: 35ml per kg of body weight (Standard Guideline)
+            const liters = (weight * 0.035).toFixed(1);
+            const glasses = Math.round(liters * 4); // Approx 250ml per glass
+            
+            document.getElementById('water-result').innerText = liters + " Litres";
+            document.getElementById('glass-count').innerText = glasses;
+            document.getElementById('water-output').classList.remove('hidden');
         }
-
-        // ----- UI helpers -----
+        
+        // --- 3. BMI & BMR SWITCHER ---
         function switchCalc(type) {
             const bmiContent = document.getElementById('content-bmi');
             const bmrContent = document.getElementById('content-bmr');
@@ -727,73 +690,69 @@
    
         // Basic BMI sync (uses the inputs present)
         function calculateAll() {
-            const w = parseFloat(document.getElementById('weight')?.value) || 0;
-            const h = parseFloat(document.getElementById('height')?.value) || 0;
-            const a = parseFloat(document.getElementById('age')?.value) || 0;
+            const w = parseFloat(document.getElementById('bmi-weight')?.value) || 0;
+            const h = parseFloat(document.getElementById('bmi-height')?.value) / 100;
+            const a = parseFloat(document.getElementById('bmi-age')?.value) || 0;
              
-            if (weight && height) {
+            if (!h || !w) return;
                 // BMI Calculation (Asian Standards)
-                const bmi = w / ((h / 100) ** 2);
-                document.getElementById('bmi-display').innerText = bmi.toFixed(1);
+            const bmi = (w / (h * h)).toFixed(1);
+            document.getElementById('bmi-display').innerText = bmi;
 
-                if (h > 0) {
+            if (h > 0) {
                     const bmi = w / ((h / 100) ** 2);
                     document.getElementById('bmi-display').innerText = bmi.toFixed(1);
                     
-                let s = "", c = "", bg = "", r = "", f = "";
+            let s = "", c = "", bg = "", r = "", f = "";    
                 
-                if (bmi < 18.5) { 
-                    s = "Underweight"; 
-                    c = "text-blue-600"; 
-                    bg = "bg-blue-100"; 
-                    r = "Low, but with increased risk of other clinical problems";
-                    f = "Consider a calorie-dense but balanced diet to achieve a healthier weight."; 
-                }
-                else if (bmi < 23.0) { 
+            if (bmi < 18.5) { 
+                s = "Underweight"; 
+                c = "text-blue-600"; 
+                bg = "bg-blue-100"; 
+                r = "Low, but with increased risk of other clinical problems";
+                f = "Consider a calorie-dense but balanced diet to achieve a healthier weight."; 
+            
+            } else if (bmi < 23.0) { 
                     s = "Normal"; 
                     c = "text-green-600"; 
                     bg = "bg-green-100"; 
                     r = "Optimal";
                     f = "Excellent! Maintain your current lifestyle and balanced plate."; 
-                }
-                else if (bmi < 27.5) { 
+            } else if (bmi < 27.5) { 
                     s = "Pre-obese (Overweight)"; 
                     c = "text-yellow-600"; 
                     bg = "bg-yellow-100"; 
                     r = "Increased";
                     f = "Monitor your portion sizes and increase daily physical activity."; 
-                }
-                else if (bmi < 32.5) { 
+            } else if (bmi < 32.5) { 
                     s = "Obese I"; 
                     c = "text-orange-600"; 
                     bg = "bg-orange-100"; 
                     r = "High";
                     f = "Consider small dietary adjustments and consult a nutritionist."; 
-                }
-                else if (bmi < 37.5) { 
+            } else if (bmi < 37.5) { 
                     s = "Obese II"; 
                     c = "text-red-600"; 
                     bg = "bg-red-100"; 
                     r = "Very High";
                     f = "Focus on weight management to reduce risk of chronic diseases."; 
-                }
-                else { 
+            } else { 
                     s = "Obese III"; 
                     c = "text-red-900"; 
                     bg = "bg-red-200"; 
                     r = "Extremely High";
                     f = "Seek medical advice for a comprehensive weight management plan."; 
-                }
-                const badge = document.getElementById('bmi-status');
-                badge.innerText = s; 
-                badge.className = `px-4 py-1 rounded-full ${bg} ${c} font-bold text-xs uppercase`;
-                }
-                document.getElementById('bmi-marker').style.left = pos + "%";
-                document.getElementById('bmi-display').className = `text-7xl font-black ${c}`;
-                document.getElementById('risk-badge').innerText = `Comorbidity Risk: ${r}`;
-                document.getElementById('bmi-feedback').innerText = f;
             }
-        }     
+            
+            const tag = document.getElementById('bmi-status-tag');
+            tag.innerText = s; 
+            tag.className = `px-4 py-1 rounded-full ${bg} ${c} font-bold text-xs uppercase`;
+            
+            document.getElementById('bmi-marker').style.left = pos + "%";
+            document.getElementById('bmi-display').className = `text-7xl font-black ${c}`;
+            document.getElementById('risk-badge').innerText = `Comorbidity Risk: ${r}`;
+            document.getElementById('bmi-feedback').innerText = f;
+        }    
            
         let currentGender = 'male';
     
@@ -813,25 +772,26 @@
         }
     
         function calculateAll() {
-                const age = parseFloat(document.getElementById('age').value) || 0;
-                const height = parseFloat(document.getElementById('height').value) || 0;
-                const weight = parseFloat(document.getElementById('weight').value) || 0;
+                const age = parseFloat(document.getElementById('bmi-age').value) || 0;
+                const height = parseFloat(document.getElementById('bmi-height').value) || 0;
+                const weight = parseFloat(document.getElementById('bmi-weight').value) || 0;
                 const formula = document.getElementById('formula').value;
-                const 
+                const gender = document.getElementById('bmi-gender').value;
+
                 
                 let bmr = 0;
                 
                 if (formula === 'mifflin') {
                     if (currentGender === 'male') {
-                        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+                        bmr = (10 * bmi-weight) + (6.25 * bmi-height) - (5 * bmi-age) + 5;
                     } else {
-                        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+                        bmr = (10 * bmi-weight) + (6.25 * bmi-height) - (5 * bmi-age) - 161;
                     }
-                } else {
-                    if (currentGender === 'male') {
-                        bmr = (13.397 * weight) + (4.799 * height) - (5.677 * age) + 88.362;
                     } else {
-                        bmr = (9.247 * weight) + (3.098 * height) - (4.330 * age) + 447.593;
+                    if (currentGender === 'male') {
+                        bmr = (13.397 * bmi-weight) + (4.799 * bmi-height) - (5.677 * bmi-age) + 88.362;
+                    } else {
+                        bmr = (9.247 * bmi-weight) + (3.098 * bmi-height) - (4.330 * bmi-age) + 447.593;
                     }
                 }
     
@@ -843,29 +803,23 @@
                 document.getElementById('loss-result').innerText = Math.round(tdee - 500) + " kcal";
                 document.getElementById('maintain-result').innerText = Math.round(tdee) + " kcal";
         }
-
-        
+            
         // ----- Snacks UI (single correct implementation) -----
         function showSnack(type) {
             // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+            ['energy', 'focus', 'stress'].forEach(t => {
+                document.getElementById('snack-' + t).classList.remove('active');
+                const btn = document.getElementById('btn-' + t);
+                btn.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
+                btn.classList.add('border-slate-700');
             });
             
             // Show selected
-            const selected = document.getElementById('snack-' + type);
-            if (selected) selected.classList.add('active');
+            document.getElementById('snack-' + type).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + type);
+            activeBtn.classList.remove('border-slate-700');
+            activeBtn.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
 
-            // Update buttons
-            const buttons = ['energy', 'focus', 'stress', 'hunger'];
-            buttons.forEach(btn => {
-                const el = document.getElementById('btn-' + btn);
-                if (!el) return;
-                if(btn === type) {
-                    el.classList.add('bg-slate-800', 'text-green-400', 'border-green-400');
-                } else {
-                    el.classList.remove('bg-slate-800', 'text-green-400', 'border-green-400');
-                }
             });
 
             // Update Image
@@ -881,142 +835,87 @@
         }
 
         // ----- Game Logic -----
-        let container, paddle, scoreDisplay, ui;
-        let bgm, sfxPop, sfxBad;
-        
+        let gameActive = false;
+        let score = 0;
+        let paddlePos = 185;
         const container = document.getElementById('game-container');
-        const paddle = document.getElementById('player-paddle');
+        const bgm = document.getElementById('game-bgm');
         const scoreDisplay = document.getElementById('score');
         const ui = document.getElementById('game-ui');
-        
-        let score = 0;
-        let gameActive = false;
-        let paddlePos = 185;
-        
         const.bgm=document.getElementById('game-bgm'); // Get Audio Element
         
-        const items = [
-            '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋', // Healthy
-            '🍩', '🥤', '🥟', '🍬', '🍔', '🍟', '🍕', '🌭', '🍪', '🍰', '🍦', '🍫', '🧁', '🥨', '🥞', '🧇', '🥐', '🍮', '🍭' // Unhealthy
-        ];
-        const goodItems = [ '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋'];
-
-        // Mouse & Touch Handler
-        function updatePaddle(clientX) {
-             if (!gameActive || !container) return; // Guard clause
-             
-            const rect = container.getBoundingClientRect();
-            let x = clientX - rect.left - 40; // Center paddle
-            
-            // Boundaries
-            if (x < 0) x = 0;
-            if (x > rect.width - 80) x = rect.width - 80;
-            
-            paddlePos = x;
-            paddle.style.left = x + 'px';
+        if(container) {
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                let x = e.clientX - rect.left - 40;
+                if(x < 0) x = 0;
+                if(x > rect.width - 80) x = rect.width - 80;
+                paddlePos = x;
+                document.getElementById('player-paddle').style.left = x + 'px';
+            });
         }
         function startGame() {
+            if (gameActive) return;
             gameActive = true;
             score = 0;
-            scoreDisplay.innerText = score;
-            ui.style.display = 'none';
-            
-            // Play Music
-            bgm.volume = 0.4; // Set volume to 40%
+            document.getElementById('score').innerText = 0;
+            document.getElementById('game-ui').style.display = 'none';
             bgm.currentTime = 0;
-            bgm.play().catch(e => console.log("Audio play failed", e));
-            {
-            
-            // Spawn items loop
-            const spawnInterval = setInterval(() => {
-                if (!gameActive) {
-                    clearInterval(spawnInterval);
-                    return;
-                }
-                createItem();
-            }, 800);
+            bgm.volume = 0.5; // 
+            bgm.currentTime = 0;
+            bgm.play().catch(e => console.log("Audio needed user interaction"));
 
-            // Game Timer (30 seconds)
+            // Spawn items loop
+            const spawner = setInterval(() => {
+                if (!gameActive) clearInterval(spawner);
+                else spawnItem();
+            }, 800);
+                
+            // Timer 30s
             setTimeout(() => {
                 gameActive = false;
-                
-                // Stop Music
                 bgm.pause();
-                bgm.currentTime = 0;
-            
-                ui.innerHTML = `
-                    <h3 class="text-3xl font-bold mb-2">Time's Up!</h3>
-                    <p class="mb-4 text-xl">Energy Level: <span class="${score > 0 ? 'text-emerald-400' : 'text-rose-400'}">${score}</span></p>
-                    <button onclick="startGame()" class="bg-emerald-500 hover:bg-emerald-400 px-8 py-3 rounded-full font-bold shadow-lg">Play Again</button>
-                `;
-                ui.style.display = 'flex';
-                
-                // Cleanup existing items
-                document.querySelectorAll('.item-drop').forEach(el => el.remove());
+                document.getElementById('game-ui').style.display = 'flex';
+                document.querySelectorAll('.item-drop').forEach(e => e.remove());
             }, 30000);
         }
 
-        function createItem() {
-            if (!gameActive || !container) return; // Guard clause
-
+        function spawnItem() {
+            const items = [
+            '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋', // Healthy
+            '🍩', '🥤', '🥟', '🍬', '🍔', '🍟', '🍕', '🌭', '🍪', '🍰', '🍦', '🍫', '🧁', '🥨', '🥞', '🧇', '🥐', '🍮', '🍭' // Unhealthy
+            ];
+            const goodItems = [ '🍎', '🍌', '🥜', '🥦', '🍇', '🍊', '🥕', '🥒', '🥑', '🥚', '🍏', '🥗', '🌽', '🍉', '🍓', '🍋'];
             const el = document.createElement('div');
-            const item = items[Math.floor(Math.random() * items.length)];
+            const char = items[Math.floor(Math.random()*items.length)];
+            el.innerText = char;
             el.className = 'item-drop';
-            el.innerText = item;
-            
-            // Random X position within container width
-            const maxLeft = container.clientWidth - 40;
-            el.style.left = Math.random() * maxLeft + 'px';
+            el.style.left = Math.random() * (container.clientWidth - 50) + 'px';
             el.style.top = '-50px';
             container.appendChild(el);
 
             let top = -50;
-            
-            // Fall animation loop for this specific item
             const fall = setInterval(() => {
-                if (!gameActive) {
-                    clearInterval(fall);
-                    el.remove();
-                    return;
-                }
-                
-                top += 4; // Falling speed
+                if(!gameActive) { clearInterval(fall); el.remove(); return; }
+                top += 5;
                 el.style.top = top + 'px';
 
-                // Collision Detection Logic
-                if (top > 400 && top < 430) {
-                    const itemX = parseFloat(el.style.left);
-                    // Hitbox calculation
-                    if (itemX + 20 > paddlePos && itemX < paddlePos + 80) {
-                        if (goodItems.includes(item)) {
-                            score += 10;
-                            el.style.textShadow = "0 0 10px #10b981";
-                            }
-                        } else {
-                            score -= 15;
-                            el.style.textShadow = "0 0 10px #f43f5e";
-                        }
-                        scoreDisplay.innerText = score;
-                        
-                        // Visual feedback (pop effect)
-                        el.style.transform = "scale(1.5)";
-                        el.style.opacity = "0";
-                        
+                // Hit detection
+                if(top > 400 && top < 430) {
+                    const elX = parseFloat(el.style.left);
+                    if(elX > paddlePos - 30 && elX < paddlePos + 80) {
+                        if(good.includes(char)) score += 10;
+                        else score -= 15;
+                        document.getElementById('score').innerText = score;
+                        el.remove();
                         clearInterval(fall);
-                        setTimeout(() => el.remove(), 100);
-                        return;
                     }
                 }
-
-                // Missed bottom
-                if (top > 450) {
-                    clearInterval(fall);
-                    el.remove();
-                }
-            }, 16);
+                if(top > 450) { el.remove(); clearInterval(fall); }
+            }, 20);
         }
 
-        // Init UI
+        // Initialize calculations on load
         CalculateAll();
         calculateBMR();
         calculateWater()
@@ -1024,6 +923,7 @@
     </script>
 </body>
 </html>
+
 
 
 
