@@ -12,69 +12,41 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             scroll-behavior: smooth;
         }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: slideUp 0.4s ease-out; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .active-btn {
-            background-color: #10b981 !important;
-            color: white !important;
-            border-color: #10b981 !important;
-        }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(229, 231, 235, 0.5);
         }
 
         .hero-gradient {
-            background: radial-gradient(circle at top right, #f0fdf4, transparent),
-                        radial-gradient(circle at bottom left, #ecfdf5, transparent);
-        }
-
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
         }
 
         .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
         }
-
-        #game-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            background: #0f172a;
-            border-radius: 24px;
-            overflow: hidden;
-            touch-action: none; 
+        .tab-content {
+            display: none;   
         }
-
-        .item-drop {
-            position: absolute;
-            font-size: 2.5rem;
-            user-select: none;
-            transition: top 0.05s linear;
-        }
-
-        #player-paddle {
-            position: absolute;
-            bottom: 20px;
-            width: 80px;
-            height: 12px;
-            background: #10b981;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-        }
-
+        
         .tab-content.active {
             display: block;
             animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }   
+        }
+        .bmi-content {
+             display: flex;
+             gap: 2rem;  
+             flex-wrap: wrap; 
+        }
+
+        .bmi-bar-column, .nutrition-table-column {
+             flex: 1; 
         }
         .bmi-bar {
            height: 12px;
@@ -118,14 +90,41 @@
         }
         .nutrition-table td:first-child {
             text-align: left;
-             width: 60%; /* Beri ruang lebih untuk teks label */
+             width: 60%; 
         }
         .nutrition-table td:last-child {
-            text-align: right; /* Ini akan menolak keputusan ke kanan */
+            text-align: right; 
             width: 40%;
             font-weight: bold;
             color: #ffffff;
         }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            background: #0f172a;
+            border-radius: 24px;
+            overflow: hidden;
+            touch-action: none; 
+        }
+
+        .item-drop {
+            position: absolute;
+            font-size: 2.5rem;
+            user-select: none;
+            transition: top 0.05s linear;
+        }
+
+        #player-paddle {
+            position: absolute;
+            bottom: 20px;
+            width: 80px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+        
         .water-calculator {
             background: #f4f9ff;
             border: 2px solid #007bff;
@@ -925,12 +924,6 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
 
 
 
