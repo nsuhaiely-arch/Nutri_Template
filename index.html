@@ -915,10 +915,18 @@
         }
 
         // Init
-        showSnack('energy');
+        window.onload = () => {
+            calculateWater();
+            switchCalc(type);
+            setGender(gender);
+            calculateAll();
+            showSnack('energy');
+            startGame();
+            spawnItem();  
     </script>
 </body>
 </html>
+
 
 
 
