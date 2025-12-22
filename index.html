@@ -47,6 +47,14 @@
         #calc-results.single .tab-content-calc.active {
             display: block;
         }
+        #content-bmr { display: none; }
+        
+        .tab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 40px;
+            align-items: start;
+        }
         
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -85,11 +93,9 @@
             animation: fadeIn 0.5s ease;
         }
         .bmi-bar {
-           position: relatives;
-           width: 100%
            height: 12px;
            border-radius: 6px;
-           background: linear-gradient(to right,
+           background: linear-gradient(to right, 
                #60a5fa 0% 18.5%,   /* Underweight (Blue) */
                #4ade80 18.5% 23%,  /* Normal (Green) */
                #facc15 23% 27.5%,  /* Pre-obese (Yellow) */
@@ -97,15 +103,29 @@
                #ef4444 32.5% 37.5%, /* Obese II (Red) */
                #7f1d1d 37.5% 100%   /* Obese III (Dark Red) */
            );
+            width: 100%;
+        }
+         .result-container {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
         .nutrition-table th, .nutrition-table td {
             position: relative;
-            width: 100%;
             padding: 8px 12px;
-            text-align: left;
             border-bottom: 1px solid #334155;
             font-size: 0.75rem;
         }
+        .nutrition-table td:first-child {
+            text-align: left;
+             width: 60%; /* Beri ruang lebih untuk teks label */
+        }
+        .nutrition-table td:last-child {
+            text-align: right; /* Ini akan menolak keputusan ke kanan */
+            width: 40%;
+            font-weight: bold;
+            color: #ffffff;
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -337,93 +357,73 @@
             </div>
         </div>
     </section>
-
+    
+<body class="bg-slate-50">
     <!-- Health Assessment Tools (BMI & BMR) -->
-    <section id="tools" class="py-24 bg-slate-50">
+    <section id="tools" class="py-24">
+        
+        <!-- Header Card -->
         <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-10">
-                <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100">
+                <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-6 text-center">
                     <h2 class="text-3xl font-bold mb-2">BMR & Energy Requirement Calculator</h2>
                     <p class="text-slate-500">Validated calculations aligned with Malaysian clinical nutrition practices.</p>
                 </div>
-
+                
+                <!-- Main Calculator Card -->
                 <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
-                    <!-- Tabs -->
+                    
+                    <!-- Tab Buttons -->
                     <div class="flex bg-slate-50 border-b border-slate-100">
-                        <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white">
+                        <button onclick="switchCalc('bmi')" id="tab-bmi" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white transition-all">
                             <i class="fas fa-weight-scale mr-2"></i> BMI (Asian Standards)
                         </button>
-                        <button onclick="switchCalc('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400">
+                        <button onclick="switchCalc('bmr')" id="tab-bmr" class="flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400 transition-all">
                             <i class="fas fa-bolt mr-2"></i> Energy Requirement Calculator
                         </button>
-                            </div>
-                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                                </div>
-                                <!-- Calculator Inputs -->
+                    </div>
+                    
+                    <div class="p-8 md:p-12">
+                        
+                        <!-- TAB 1: BMI (CONTENT) -->
+                        <div id="content-bmi">
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                                
+                                <!-- KIRI: Input BMI -->
                                 <div class="lg:col-span-7 space-y-6">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Calculation Method</label>
-                                        <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
-                                            <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
-                                            <option value="harris">Harris-Benedict</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Gender</label>
-                                        <div class="flex gap-2">
-                                            <button onclick="setGender('male')" id="btn-male" class="flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700">Male</button>
-                                            <button onclick="setGender('female')" id="btn-female" class="flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500">Female</button>
+                                    <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest">BMI Input Details</h3>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Height (cm)</label>
+                                            <input type="number" id="bmi-height" value="170" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none" oninput="calculateBMI()">
                                         </div>
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Age</label>
-                                        <input type="number" id="age" value="25" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Height (cm)</label>
-                                        <input type="number" id="height" value="170" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Weight (kg)</label>
-                                        <input type="number" id="weight" value="70" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" oninput="calculateBMR()">
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Weight (kg)</label>
+                                        <input type="number" id="bmi-weight" value="70" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none" oninput="calculateBMI()">
                                     </div>
                                 </div>
-        
+                                <div class="p-4 bg-green-50 rounded-2xl border border-green-100">
+                                    <p class="text-xs text-green-700 leading-relaxed">
+                                        <i class="fas fa-info-circle mr-1"></i> Calculation based on <b>Clinical Practice Guidelines (CPG) Malaysia</b>.
+                                    </p>
+                                </div>
+                            </div>
+                             
+                            <!-- Kanan Result BMI -->
+                            <div class="lg:col-span-5 result-container">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">Your BMI Score</span>
+                                <div class="flex items-baseline gap-2">   
+                                    <span id="bmi-val" class="text-7xl font-black text-green-600">24.2</span>
+                                    <span id="bmi-status" class="px-4 py-1 rounded-full bg-green-100 text-green-700 font-bold text-xs uppercase">Normal</span>
+                                </div>
+                                    <div class="bmi-bar mb-6"> </div>
+                                    <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
+                                    <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Physical Activity Level (PAL)</label>
-                                    <select id="activity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
-                                        <option value="1.2">Basal Metabolic Rate (BMR only)</option>
-                                        <option value="1.2">Sedentary (Desk-bound, minimal walking)</option>
-                                        <option value="1.375">Lightly Active (Light exercise/sports 1-3 days/week)</option>
-                                        <option value="1.55">Moderately Active (Moderate exercise/sports 3-5 days/week)</option>
-                                        <option value="1.725">Very Active (Hard exercise/sports 6-7 days/week)</option>
-                                        <option value="1.9">Extra Active (Very hard exercise & physical job)</option>
-                                    </select>
-                                </div>
-
-                        <!-- Results: BMI (left) & BMR (right) -->
-                        <div id="calc-results" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-                            <!-- BMI Result Area -->
-                            <div id="calc-bmi" class="tab-content-calc active">
-                                <div class="grid lg:grid-cols-2 gap-12 items-start">
-                                    <div>
-                                        <h3 class="text-2xl font-bold mb-4">Your Result</h3>
-                                        <div class="flex items-baseline gap-3 mb-4">
-                                            <span id="bmi-val" class="text-7xl font-black text-green-600">24.2</span>
-                                            <span id="bmi-status" class="px-4 py-1 rounded-full bg-green-100 text-green-700 font-bold text-xs uppercase">Normal</span>
-                                        </div>
-                                        <div class="bmi-bar mb-6"></div>
-                                        <div id="risk-badge" class="mb-4 inline-block px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase rounded-md">Comorbidity Risk: Optimal</div>
-                                        <p id="bmi-feedback" class="text-slate-600 text-sm leading-relaxed">You are within the healthy range for your height.</p>
-                                    </div>
-                                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                        <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
-                                        <div class="space-y-2 text-[11px] font-bold">
-                                            <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
-                                                <span>Underweight (&lt; 18.5)</span>
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                    <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-wider">Classification Table (CPG)</h4>
+                                    <div class="space-y-2 text-[11px] font-bold">
+                                    <div class="flex justify-between p-2 rounded bg-blue-50 text-blue-700 border border-blue-100">
+                                         <span>Underweight (&lt; 18.5)</span>
                                                 <span>Low Risk*</span>
                                             </div>
                                             <div class="flex justify-between p-2 rounded bg-green-50 text-green-700 border border-green-200">
@@ -449,12 +449,59 @@
                                         </div>
                                         <p class="text-[9px] text-slate-400 mt-4 leading-relaxed">*Underweight carries increased risk of other clinical problems. Table based on CPG Obesity Management [...]
                                     </div>
+                                </div>       
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: BMR (CONTENT) - Hidden by default -->
+                    <div id="content-bmr">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                            
+                            <!-- KIRI: Input BMR -->
+                            <div class="lg:col-span-7 space-y-6">
+                                <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest">BMR & PAL Input</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="col-span-2">
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Gender</label>
+                                        <select id="bmr-gender" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" onchange="calculateBMR()">
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Age</label>
+                                        <input type="number" id="bmr-age" value="25" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" oninput="calculateBMR()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Weight (kg)</label>
+                                        <input type="number" id="bmr-weight" value="70" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" oninput="calculateBMR()">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
+                                            <option value="mifflin">Mifflin-St Jeor (MOH Malaysia Preferred)</option>
+                                            <option value="harris">Harris-Benedict</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Physical Activity Level</label>
+                                        <select id="bmr-activity" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" onchange="calculateBMR()">
+                                            <option value="bedrest">Bed Rest / Lying Still</option>
+                                            <option value="sedentary">Very Light / Sedentary(Desk-bound, minimal walking)</option>
+                                            <option value="light">Light Activity(Light exercise/sports 1-3 days/week)</option>
+                                            <option value="moderate">Moderate Activity(Moderate exercise/sports 3-5 days/week)</option>
+                                            <option value="heavy">Heavy Activity</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- BMR Results Area -->
+                           
+                            <!-- KANAN: Result BMR -->
                             <div id="calc-bmr" class="tab-content-calc">
-                                <div class="bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center h-full">
+                                <div class="lg:col-span-5 result-container">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Daily Calories</span>
+                                    <div class="flex items-baseline gap-2">
+                                    <div class="bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center h-full">
                                     <div class="text-center mb-8">
                                         <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
                                         <div class="text-6xl font-black text-white"><span id="tdee-val">2034</span></div>
@@ -491,11 +538,12 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div> 
+                    </div>
                 </div>
             </div>
-        </div>
+         </div>
+     </div>
     </section>
 
     <!-- Game BGM Audio -->
@@ -528,41 +576,29 @@
 
     <script>
         // ----- UI helpers -----
-        function switchCalc(type) {
-            const results = document.getElementById('calc-results');
-            const target = document.getElementById('calc-' + type);
+       function switchCalc(type) {
+            const bmiContent = document.getElementById('content-bmi');
+            const bmrContent = document.getElementById('content-bmr');
+            const tabBmi = document.getElementById('tab-bmi');
+            const tabBmr = document.getElementById('tab-bmr');
 
-            if (results.classList.contains('single') && target.classList.contains('active')) {
-                results.classList.remove('single');
-                document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
+            if (type === 'bmi') {
+                bmiContent.style.display = 'block';
+                bmrContent.style.display = 'none';
+                
+                tabBmi.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-green-500 text-green-600 bg-white";
+                tabBmr.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400";
+                calculateBMI();
             } else {
-                results.classList.add('single');
-                document.querySelectorAll('.tab-content-calc').forEach(el => el.classList.remove('active'));
-                target.classList.add('active');
+                bmiContent.style.display = 'none';
+                bmrContent.style.display = 'block';
+                
+                tabBmr.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-blue-500 text-blue-600 bg-white";
+                tabBmi.className = "flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 border-transparent text-slate-400";
+                calculateBMR();
             }
-
-            // Update tab styles
-            document.getElementById('tab-bmi').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmi' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400 bg-white'}`;
-            document.getElementById('tab-bmr').className = `flex-1 py-6 text-sm font-bold uppercase tracking-widest border-b-4 ${type === 'bmr' ? 'border-green-500 text-green-600 bg-white' : 'border-transparent text-slate-400 bg-white'}`;
         }
-
-        // Keep only one global gender setter
-        let currentGender = 'male';
-        function setGender(gender) {
-            currentGender = gender;
-            const maleBtn = document.getElementById('btn-male');
-            const femaleBtn = document.getElementById('btn-female');
-            
-            if (gender === 'male') {
-                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
-                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
-            } else {
-                femaleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all bg-green-100 border-green-500 text-green-700";
-                maleBtn.className = "flex-1 py-3 border rounded-xl font-bold transition-all border-slate-200 text-slate-500";
-            }
-            calculateBMR();
-        }
-
+   
         // Basic BMI sync (uses the inputs present)
         function syncAndCalculate() {
             const w = parseFloat(document.getElementById('weight')?.value) || 0;
@@ -636,6 +672,8 @@
             const formula = document.getElementById('formula')?.value || 'mifflin';
             const activity = parseFloat(document.getElementById('activity')?.value) || 1.2;
             
+            if (!age || !weight || !height) return;
+            
             let bmr = 0;
             
             if (formula === 'mifflin') {
@@ -653,16 +691,41 @@
                 }
                 document.getElementById('equation-info').innerText = "Harris-Benedict: Historical standard; often used for athletic individuals but may overestimate needs in sedentary office populations.";
             }
-
-            if (bmr < 0) bmr = 0;
-            const tdee = bmr * activity;
             
+            // 3. Tentukan Faktor Aktiviti (PAL) mengikut jantina
+            const activityFactors = {
+                male: {
+                    bedrest: 1.1,
+                    sedentary: 1.3,
+                    light: 1.5,
+                    moderate: 1.7,
+                    heavy: 2.1
+                },
+                female: {
+                    bedrest: 1.0,
+                    sedentary: 1.2,
+                    light: 1.4,
+                    moderate: 1.6,
+                    heavy: 1.6 // Mengikut data yang anda berikan
+                }
+            };
+
+            const pal = activityFactors[gender][activityKey];
+
+            // 4. Kira Total Daily Energy Expenditure (TDEE)
+            
+            if (bmr < 0) bmr = 0;
+            const tdee = Math.round(bmr * pal);
+           
             document.getElementById('bmr-result').innerText = Math.round(bmr) + " kcal";
             document.getElementById('tdee-val').innerText = Math.round(tdee);
             document.getElementById('loss-result').innerText = Math.round(tdee - 500) + " kcal";
             document.getElementById('maintain-result').innerText = Math.round(tdee) + " kcal";
         }
-
+        window.onload = function() {
+            switchCalc('bmi');
+        }
+        
         // ----- Snacks UI (single correct implementation) -----
         function showSnack(type) {
             // Hide all contents
