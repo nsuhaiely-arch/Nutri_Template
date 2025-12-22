@@ -114,33 +114,7 @@
         .result-container table {
             width: 100%;
             border-collapse: collapse;
-        }
-        .result-container td:first-child {
-            text-align: left !important;
-            color: #94a3b8; /* Warna pudar untuk label */
-        }
-
-        /* Result (Kanan) */
-        .result-container td:last-child {
-            text-align: right !important; /* Paksa keputusan ke kanan */
-            font-weight: bold;
-            color: #ffffff; /* Warna putih untuk teks di dalam box hitam */
-        }
-        .nutrition-table th, .nutrition-table td {
-            position: relative;
-            padding: 8px 12px;
-            border-bottom: 1px solid #334155;
-            font-size: 0.75rem;
-        }
-        .nutrition-table td:first-child {
-            text-align: left;
-             width: 60%; /* Beri ruang lebih untuk teks label */
-        }
-        .nutrition-table td:last-child {
-            text-align: right; /* Ini akan menolak keputusan ke kanan */
-            width: 40%;
-            font-weight: bold;
-            color: #ffffff;
+        }    
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -513,7 +487,7 @@
                            
                             <!-- KANAN: Result BMR -->
                             <div id="calc-bmr" class="tab-content-calc">
-                                <div class="lg:col-span-5 result-container">
+                                <div class="lg:col-span-5 "result-container">
                                     <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Daily Calories</span>
                                     <div class="flex items-baseline gap-2">
                                     <div class="bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center h-full">
@@ -954,6 +928,7 @@
     </script>
 </body>
 </html>
+
 
 
 
