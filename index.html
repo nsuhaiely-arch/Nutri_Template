@@ -110,10 +110,14 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+            width: 100%;
+            
         }
         .result-container table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 1.5rem;
+            
         }    
     </style>
 </head>
@@ -485,7 +489,7 @@
                            
                             <!-- KANAN: Result BMR -->
                             <div id="calc-bmr" class="tab-content-calc">
-                                <div class="lg:col-span-7 "result-container">
+                                <div class="lg:col-span-5 flex h-full"result-container">
                                     <div class="bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-center h-full">
                                     <div class="text-center mb-8">
                                         <p class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-2">Total Energy Requirement (TDEE)</p>
@@ -924,6 +928,7 @@
     </script>
 </body>
 </html>
+
 
 
 
