@@ -444,9 +444,10 @@
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                             
                             <!-- KIRI: Input BMR -->
-                            <div class="lg:col-span-7 space-y-6">
+                            <div class="lg:col-span-6 space-y-6">
                                 <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest">BMR & PAL Input</h3>
-                                <div class="grid grid-cols-1 gap-5">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="col-span-2">
                                         <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Gender</label>
                                         <select id="bmr-gender" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" onchange="calculateBMR()">
                                             <option value="male">Male</option>
@@ -455,20 +456,21 @@
                                     </div>
                                     <div class="col-span-2">
                                     <div>
-                                        <label class="block text-[6px] font-bold text-slate-400 mb-2 uppercase">Age</label>
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Age</label>
                                         <input type="number" id="bmr-age" value="25" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" oninput="calculateBMR()">
                                     </div>
                                     <div class="col-span-2">
                                     <div>
-                                        <label class="block text-[6px] font-bold text-slate-400 mb-2 uppercase">Weight (kg)</label>
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Weight (kg)</label>
                                         <input type="number" id="bmr-weight" value="70" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" oninput="calculateBMR()">
                                     </div>
+                                    <div class="col-span-2">
                                         <select id="formula" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none" onchange="calculateBMR()">
                                             <option value="mifflin">Mifflin-St Jeor</option>
                                             <option value="harris">Harris-Benedict</option>
                                         </select>
                                     </div>
-                                        <label class="block text-[6px] font-bold text-slate-400 mb-2 uppercase">Physical Activity Level</label>
+                                        <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase">Physical Activity Level</label>
                                         <select id="bmr-activity" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none" onchange="calculateBMR()">
                                             <option value="bedrest">Bed Rest / Lying Still</option>
                                             <option value="sedentary">Very Light / Sedentary(Desk-bound, minimal walking)</option>
@@ -921,6 +923,7 @@
     </script>
 </body>
 </html>
+
 
 
 
