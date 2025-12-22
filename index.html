@@ -111,6 +111,21 @@
             flex-direction: column;
             align-items: flex-end;
         }
+        .result-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .result-container td:first-child {
+            text-align: left !important;
+            color: #94a3b8; /* Warna pudar untuk label */
+        }
+
+        /* Result (Kanan) */
+        .result-container td:last-child {
+            text-align: right !important; /* Paksa keputusan ke kanan */
+            font-weight: bold;
+            color: #ffffff; /* Warna putih untuk teks di dalam box hitam */
+        }
         .nutrition-table th, .nutrition-table td {
             position: relative;
             padding: 8px 12px;
@@ -939,6 +954,7 @@
     </script>
 </body>
 </html>
+
 
 
 
