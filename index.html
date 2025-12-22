@@ -291,7 +291,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
@@ -618,13 +618,13 @@
             </div>
         </div>
     </div>
-              
-    </section>
-
+        
     <!-- Game BGM Audio -->
-    <audio id="game-bgm" loop> 
-        <source src="IX.mp3" type="audio/mpeg">
-    </audio>
+        <audio id="game-bgm" loop> 
+            <source src="IX.mp3" type="audio/mpeg">
+        </audio>
+
+    </section>
 
     <!-- Footer -->
     <footer class="bg-white py-12 border-t border-slate-100">
@@ -647,20 +647,22 @@
         </div>
     </footer>
 
-    <script>
-        function calculateWater() {
-            const weight = document.getElementById('water-weight').value;
-            if (!weight) return;
-            
-            // Formula: 35ml per kg of body weight (Standard Guideline)
-            const liters = (weight * 0.035).toFixed(1);
-            const glasses = Math.round(liters * 4); // Approx 250ml per glass
-            
-            document.getElementById('water-result').innerText = liters + " Litres";
-            document.getElementById('glass-count').innerText = glasses;
-            document.getElementById('water-output').classList.remove('hidden');
+    <script src="script.js">
+        function goTo(id) {
+            document.getElementById(id).scrollIntroView({ behavior: "smooth" });
         }
         
+        function calculateWater() {
+            const weight = document.getElementById("weight").value;
+            const result = document.getElementById("waterResult");
+            
+            if (!weight) {
+                result.innerText = "please enter your weight.";
+                return;
+            }
+            const water = (weight * 35)/1000;     
+            result.innerText = "Your estimated daily goal: " + water.toFixed(1) + " L/day";
+        }
         // --- 3. BMI & BMR SWITCHER ---
         function switchCalc(type) {
             const bmiContent = document.getElementById('content-bmi');
@@ -834,8 +836,9 @@
         }
 
         // ----- Game Logic -----
-        let gameActive = false;
         let score = 0;
+        let gameInterval;
+      
         let paddlePos = 185;
         const container = document.getElementById('game-container');
         const bgm = document.getElementById('game-bgm');
@@ -926,6 +929,7 @@
     </script>
 </body>
 </html>
+
 
 
 
